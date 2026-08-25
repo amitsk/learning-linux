@@ -116,7 +116,7 @@ Use GNOME if you want the mainstream Ubuntu/Fedora experience.
 
 [XFCE](https://www.xfce.org/) is light, traditional, and kind to old laptops. Panels, a menu, not much animation. Ships as **Xubuntu**, Mint XFCE, and a [Fedora XFCE Spin](https://fedoraproject.org/spins/xfce/).
 
-Use XFCE if the machine is used, RAM is tight, or you want the UI to stay out of the way. See [Used laptops](04-used-laptops.md).
+Use XFCE if the machine is used, RAM is tight, or you want the UI to stay out of the way. See [Used laptops](05-used-laptops.md).
 
 ### Budgie
 
@@ -166,7 +166,7 @@ On Fedora, the last line is `sudo dnf upgrade --refresh`. Different grocery stor
 | **Virtual machine** | You cannot touch the host disk yet | Safe playground, slower, worse GPU. [VirtualBox](https://www.virtualbox.org/) or [virt-manager](https://virt-manager.org/) |
 | **WSL2 on Windows** | Your only computer is a locked-down Windows laptop | Great for shell + compilers, *not* a full Linux desktop. See [learning-shell getting started](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) |
 
-If the goal is "learn Linux as a desktop," install it on real hardware. A used ThinkPad from [section 4](04-used-laptops.md) beats a sluggish VM for morale.
+If the goal is "learn Linux as a desktop," install it on real hardware. A used ThinkPad from [section 5](05-used-laptops.md) beats a sluggish VM for morale.
 
 ## Package managers in one paragraph
 

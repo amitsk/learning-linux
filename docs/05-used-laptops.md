@@ -1,6 +1,6 @@
-# 4. Used laptops and Linux resurrection
+# 5. Used laptops and Linux resurrection
 
-[← Development workstation](03-dev-workstation.md) · [Home](../README.md)
+[← Languages and toolchains](04-languages.md) · [Home](../README.md)
 
 Linux is the best reason to buy last year's laptop and the best way to make a 2015 "paperweight" useful again. You do not need a glowing RGB spaceship to compile homework. You need RAM, an SSD, and a kernel that knows the Wi-Fi chip.
 
@@ -91,7 +91,7 @@ flowchart TD
 2. **Swap HDD → SSD** if the machine still has a spinning disk. This single change does more than a new distro. Clone or just reinstall; reinstall is cleaner.
 3. **Max the RAM** if there are empty slots. 2×8 GB is the student sweet spot.
 4. **Install Linux Mint.** Cinnamon if the CPU is from the last decade; **XFCE edition** if it wheezes. Guide: [Mint installation](https://linuxmint-installation-guide.readthedocs.io/en/latest/).
-5. **First boot:** Update Manager, Driver Manager, then [section 3](03-dev-workstation.md).
+5. **First boot:** Update Manager, Driver Manager, then [section 3](03-dev-workstation.md) and [section 4](04-languages.md).
 6. **Power:** install `tlp` on older ThinkPads if you care about battery. Mint often feels fine without it; measure before you tune.
 
 If the live USB cannot see the disk, look in firmware for **SATA mode**. RAID/RST often needs to be AHCI for a normal install. Changing that on a disk that still has Windows will make Windows unhappy — another reason to backup and commit.
@@ -113,7 +113,7 @@ Budget-ish, not a shopping affiliate list:
 - Replacement charger from a reputable vendor (cheap no-name bricks start fires)
 - Optional: USB ethernet dongle for the first afternoon
 
-Then install Cinnamon or XFCE and go back to [section 3](03-dev-workstation.md). The hardware is the boring part. The boring part is the point.
+Then install Cinnamon or XFCE and go back to [section 3](03-dev-workstation.md) and [section 4](04-languages.md). The hardware is the boring part. The boring part is the point.
 
 ## Further reading
 
@@ -124,4 +124,4 @@ Then install Cinnamon or XFCE and go back to [section 3](03-dev-workstation.md).
 
 ---
 
-[← Development workstation](03-dev-workstation.md) · [Back to the start](../README.md)
+[← Languages and toolchains](04-languages.md) · [Back to the start](../README.md)

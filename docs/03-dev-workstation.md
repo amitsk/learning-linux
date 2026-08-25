@@ -1,6 +1,6 @@
 # 3. Setting up a development workstation
 
-[← How Linux is put together](02-linux-design.md) · [Home](../README.md) · [Used laptops →](04-used-laptops.md)
+[← How Linux is put together](02-linux-design.md) · [Home](../README.md) · [Languages →](04-languages.md)
 
 This is the "make the computer useful" chapter. The reference desktop is **Linux Mint Cinnamon edition**. Commands are Debian/Ubuntu-shaped, so they also work on Ubuntu with small naming differences. Fedora notes sit at the end of each major step.
 
@@ -14,6 +14,7 @@ You will:
 6. Add users and groups
 7. Stand up PostgreSQL from scratch
 8. Install (or at least bookmark) a real editor and AI coding CLIs
+9. Then install compilers and languages in [section 4](04-languages.md)
 
 Take snapshots with Timeshift before you get adventurous. Future-you is a harsh code reviewer.
 
@@ -335,6 +336,8 @@ Install what you will actually open this semester. Bookmarks count; unused IDEs 
 sudo apt install code
 ```
 
+Language extensions (Python, Java, Go, Rust, C/C++) are listed in [section 4](04-languages.md#vs-code-extensions). Install VS Code here; add plugins after you have a compiler.
+
 ### IntelliJ IDEA
 
 - [Install IntelliJ IDEA](https://www.jetbrains.com/help/idea/installation-guide.html)
@@ -431,7 +434,7 @@ If those succeed, you have a workstation. Everything else is customization.
 
 ## 3.12 Extra, still useful
 
-- **Languages:** install from distro packages first (`python3`, `openjdk`, `nodejs` via NodeSource or distro — pick one story and stick to it). Course staff often specify a version; follow them.
+- **Languages and compilers:** do not stop at distro `python3`. Use [section 4](04-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
 - **Backups:** Timeshift for the *system*; copy `~/` (projects, `.ssh`, `.gitconfig`) separately. A snapshot of `/` does not replace Git remotes.
 - **Shell fluency:** keep going in [learning-shell](https://github.com/amitsk/learning-shell) — HTTP tools, awk, and Make show up in real build logs.
@@ -448,4 +451,4 @@ If those succeed, you have a workstation. Everything else is customization.
 
 ---
 
-**Next:** [Used laptops and bringing old machines back →](04-used-laptops.md)
+**Next:** [Languages and toolchains →](04-languages.md)

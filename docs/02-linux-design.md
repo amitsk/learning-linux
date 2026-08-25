@@ -115,7 +115,7 @@ flowchart LR
   F --> G[Your terminal and IDE]
 ```
 
-1. **UEFI/BIOS** initializes hardware. This is where Secure Boot and "boot from USB" live. Relevant on [used laptops](04-used-laptops.md).
+1. **UEFI/BIOS** initializes hardware. This is where Secure Boot and "boot from USB" live. Relevant on [used laptops](05-used-laptops.md).
 2. **GRUB** (usually) loads the kernel and an **initramfs** (tiny root filesystem for finding the real disk).
 3. The **kernel** takes over, mounts the real root filesystem.
 4. **systemd** becomes process 1 and starts units: networking, `sshd`, `postgresql`, the display manager (`lightdm` on Mint Cinnamon).
