@@ -132,6 +132,12 @@ git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 ```
 
+### Terminals
+
+The Cinnamon default (Menu → Terminal, or `Ctrl+Alt+T`) is GNOME Terminal. It works, and it is what this tutorial means when it says "open a terminal."
+
+If you want a faster or more modern emulator, the usual alternatives are [Ghostty](https://ghostty.org/), [Kitty](https://sw.kovidgoyal.net/kitty/), [Alacritty](https://alacritty.org/), and [WezTerm](https://wezfurlong.org/wezterm/). This author uses and recommends **Ghostty** when the machine can support it — it is GPU-accelerated and wants a reasonably recent OpenGL stack. If Ghostty will not launch, keep the default, especially on older laptops ([section 5](05-used-laptops.md)).
+
 Optional but pleasant:
 
 - [starship.rs](https://starship.rs/) — prompt. Also mentioned in [learning-shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md)
