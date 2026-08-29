@@ -8,6 +8,8 @@ You do **not** need every language on day one. Install what this semester actual
 
 **Default recommendation:** use **[mise](https://mise.jdx.dev/)** as the one tool that can install **Java, Python, Node.js, Go**, and friends. Add language-specific tools where they are genuinely better: **[uv](https://docs.astral.sh/uv/)** for Python projects, **[Cargo](https://doc.rust-lang.org/cargo/)** (via rustup) for Rust. Keep **GCC** and **Clang** as distro packages. Then glue it together in VS Code with the official extensions.
 
+This chapter stops at a working toolchain. Once `python`, `go`, `node`, or `cargo` actually runs, the same GitHub org has project-shaped follow-ons (virtualenvs, modules, lint, tests). Those links sit in the Python, Go, Node, and Rust sections below — not next to Java or C, which do not have a matching tutorial.
+
 If a professor says "use the Java on the lab machines," use that version. mise exists so you can *match* it at home, not so you can invent a fourth JDK.
 
 ## Distro packages vs a version manager
@@ -105,6 +107,10 @@ mise use --global go@1.24
 go version
 ```
 
+Node is the runtime. A TypeScript or JavaScript project (pnpm, ESLint, tests, Vite) is [amitsk/typescript-development-env](https://github.com/amitsk/typescript-development-env).
+
+Go after `go version` works — modules, tests, lint, and a sample service: [amitsk/go-development-env](https://github.com/amitsk/go-development-env). It uses mise the same way this chapter does.
+
 Per-project pin (do this inside the homework repo):
 
 ```bash
@@ -157,6 +163,8 @@ uv lock                    # lockfile for the team
 
 First steps: [uv first steps](https://docs.astral.sh/uv/getting-started/first-steps/). Do not mix `sudo pip`, `conda`, and `uv` in the same project. One story per repo.
 
+When the assignment is a real Python project (venv, Ruff, pytest, types, maybe FastAPI): [amitsk/python-development-env](https://github.com/amitsk/python-development-env). That tutorial assumes you can run Python; this chapter is how you got there.
+
 ## Rust: rustup and Cargo
 
 Rust's toolchain is its own planet, and that planet is **[rustup](https://rustup.rs/)** plus **[Cargo](https://doc.rust-lang.org/cargo/)**. Cargo is the `npm`/`uv` of Rust: new project, deps, build, test, `Cargo.lock`.
@@ -178,6 +186,8 @@ Book and refs: [The Cargo Book](https://doc.rust-lang.org/cargo/) · [rustup boo
 
 C compilers below still matter: some crates talk to C libraries via `pkg-config` and `build-essential`.
 
+Clippy, rustfmt, tests, sqlx, and Axum are the next layer, not this chapter: [amitsk/rust-development-env](https://github.com/amitsk/rust-development-env).
+
 ## Node.js without mise: Volta and nvm
 
 If you already use mise for Node, skip this. If a tutorial, club, or teammate lives in a Node-only world, these two names will appear.
@@ -197,6 +207,8 @@ volta install node
 ```
 
 mise can read `.nvmrc` if you enable idiomatic version files. See [mise configuration](https://mise.jdx.dev/configuration.html). Running **mise and nvm together** is how `node` silently becomes the wrong version. Choose one.
+
+If you landed here because a teammate uses nvm or Volta, [amitsk/typescript-development-env](https://github.com/amitsk/typescript-development-env) chapter 2 compares those with mise. Read it before you install a second Node manager "just in case." The rest of that tutorial is the project layer (packages, lint, tests), not a third way to install Node.
 
 ## C and C++: GNU and LLVM
 
@@ -294,6 +306,15 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 Then open VS Code and install only the extensions for those languages.
+
+If a language above is this semester's job, continue in the matching environment tutorial instead of collecting more installers:
+
+| You just installed | Next tutorial |
+| --- | --- |
+| Python + uv | [amitsk/python-development-env](https://github.com/amitsk/python-development-env) |
+| Go (mise) | [amitsk/go-development-env](https://github.com/amitsk/go-development-env) |
+| Node (mise, Volta, or nvm) | [amitsk/typescript-development-env](https://github.com/amitsk/typescript-development-env) |
+| Rust (rustup / Cargo) | [amitsk/rust-development-env](https://github.com/amitsk/rust-development-env) |
 
 ## What not to do
 
