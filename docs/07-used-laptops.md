@@ -75,6 +75,11 @@ Pay a little more for a machine with an SSD already installed. Swapping a 2.5" S
 The ritual is older than some freshmen:
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart TD
   A[Dusty laptop] --> B[Backup anything you still want]
   B --> C[Live USB: Mint Cinnamon or XFCE]
