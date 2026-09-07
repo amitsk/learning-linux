@@ -35,6 +35,11 @@ Official mise docs: [Getting started](https://mise.jdx.dev/getting-started.html)
 [mise-en-place](https://mise.jdx.dev/) (usually just **mise**) installs runtimes, pins versions in a `mise.toml`, and switches them when you `cd` into a project. Think of it as a polyglot version manager that learned from nvm/asdf and then got a better config file.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart LR
   TOML["mise.toml or ~/.config/mise/config.toml"] --> Mise[mise]
   Mise --> Java[java / javac]

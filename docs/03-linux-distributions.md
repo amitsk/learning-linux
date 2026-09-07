@@ -79,6 +79,11 @@ These are provider-created operating systems, distinct from Ubuntu or Debian ima
 The **desktop environment (DE)** is the GUI: panel, app menu, window decorations, settings. Same distro, different DE, wildly different vibe. Think "same kitchen, different cabinets."
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart TB
   subgraph Hardware
     HW[Laptop or desktop]

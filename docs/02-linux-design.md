@@ -32,6 +32,11 @@ The kernel is the landlord. Everything above it is a tenant that asks politely (
 ## Kernel vs operating system vs distro
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart TB
   subgraph Distro["Linux Mint / Ubuntu / Fedora"]
     subgraph OS["What people casually call \"the OS\""]
@@ -68,6 +73,11 @@ The kernel is not a desktop. It does not know what a "Start menu" is. It does th
 User programs never poke the disk controller directly (if they are well-behaved). They call `read()`, `write()`, `mmap()`, `clone()`, … and the kernel does the privileged work.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 sequenceDiagram
   participant You as You / your program
   participant Libc as C library (glibc)
@@ -108,6 +118,11 @@ The stack above describes this tutorial's desktop distributions. Embedded system
 Knowing the boot path helps the first time a machine stops at a black screen and you have to guess which layer died.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart LR
   A[Firmware: UEFI/BIOS] --> B[Bootloader: GRUB]
   B --> C[Linux kernel + initramfs]
@@ -162,6 +177,11 @@ The filesystem layout is documented in `man hier` and the [Filesystem Hierarchy 
 A distro's superpower is not the wallpaper. It is a **signed repository** of packages that were built to work together.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart LR
   You[you: apt install postgresql] --> APT[apt]
   APT --> Lists["Package lists<br/>/etc/apt"]

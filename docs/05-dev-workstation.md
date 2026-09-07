@@ -307,6 +307,11 @@ SELECT * FROM notes;
 ### What you installed, in design terms
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart TB
   subgraph Host["Linux Mint workstation"]
     Apt["apt installed postgresql packages"]
