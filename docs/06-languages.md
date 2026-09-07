@@ -1,8 +1,8 @@
-# 4. Languages and toolchains
+# 6. Languages and toolchains
 
-[← Development workstation](03-dev-workstation.md) · [Home](../README.md) · [Used laptops →](05-used-laptops.md)
+[← Development workstation](05-dev-workstation.md) · [Home](../README.md) · [Used laptops →](07-used-laptops.md)
 
-Section 3 got you a desktop, `apt`, SSH, and an editor. This chapter is the part where the machine starts compiling homework.
+Section 5 got you a desktop, `apt`, SSH, and an editor. This chapter is the part where the machine starts compiling homework.
 
 You do **not** need every language on day one. Install what this semester actually uses. The trap is mixing three version managers, a random PPA, and `sudo pip` until `python` is a haunted house.
 
@@ -114,8 +114,9 @@ Go after `go version` works — modules, tests, lint, and a sample service: [ami
 Per-project pin (do this inside the homework repo):
 
 ```bash
+mkdir -p ~/projects/cs101
 cd ~/projects/cs101
-mise use java@21 python@3.12 node@lts go@1.24
+mise use java@temurin-21 python@3.12 node@lts go@1.24
 ```
 
 That writes a `mise.toml` you can commit so lab partners get the same versions:
@@ -146,7 +147,7 @@ uv --version
 You can also `mise use --global uv` if you want mise to own the `uv` binary.
 
 ```bash
-mkdir ~/projects/hello-uv && cd ~/projects/hello-uv
+mkdir -p ~/projects/hello-uv && cd ~/projects/hello-uv
 uv init
 uv add requests
 uv run python -c "import requests; print(requests.__version__)"
@@ -223,7 +224,7 @@ Install **both**. They coexist. Your course will say which one grades the assign
 
 ### Mint / Ubuntu (GNU)
 
-`build-essential` is GCC, `g++`, `make`, and libc headers — already in [section 3.4](03-dev-workstation.md#34-basic-tools-and-utilities). Add a debugger if you skipped it:
+`build-essential` is GCC, `g++`, `make`, and libc headers — already in [section 5.4](05-dev-workstation.md#54-basic-tools-and-utilities). Add a debugger if you skipped it:
 
 ```bash
 sudo apt install build-essential gdb pkg-config
@@ -264,7 +265,7 @@ Which one for class? If the autograder is silent, **GCC** is the conservative be
 
 ## VS Code extensions
 
-Most languages have a first-party or officially blessed **VS Code** extension. Install VS Code first ([section 3.9](03-dev-workstation.md#39-developer-tools-editors-and-coding-agents)), then add extensions for the languages you actually opened this week — not the whole marketplace.
+Most languages have a first-party or officially blessed **VS Code** extension. Install VS Code first ([section 5.9](05-dev-workstation.md#59-developer-tools-editors-and-coding-agents)), then add extensions for the languages you actually opened this week — not the whole marketplace.
 
 | Language | Extension (search this name) | Marketplace |
 | --- | --- | --- |
@@ -325,4 +326,4 @@ If a language above is this semester's job, continue in the matching environment
 
 ---
 
-**Next:** [Used laptops and bringing old machines back →](05-used-laptops.md)
+**Next:** [Used laptops and bringing old machines back →](07-used-laptops.md)

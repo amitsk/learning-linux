@@ -1,6 +1,6 @@
-# 3. Setting up a development workstation
+# 5. Setting up a development workstation
 
-[← How Linux is put together](02-linux-design.md) · [Home](../README.md) · [Languages →](04-languages.md)
+[← Running Linux: VMs and containers](04-running-linux.md) · [Home](../README.md) · [Languages →](06-languages.md)
 
 This is the "make the computer useful" chapter. The reference desktop is **Linux Mint Cinnamon edition**. Commands are Debian/Ubuntu-shaped, so they also work on Ubuntu with small naming differences. Fedora notes sit at the end of each major step.
 
@@ -14,11 +14,13 @@ You will:
 6. Add users and groups
 7. Stand up PostgreSQL from scratch
 8. Install (or at least bookmark) a real editor and AI coding CLIs
-9. Then install compilers and languages in [section 4](04-languages.md)
+9. Then install compilers and languages in [section 6](06-languages.md)
+
+You can follow this chapter on hardware or inside the [VM from chapter 4](04-running-linux.md). If Mint is already installed in your VM, start at first boot below. Containers do not provide the full desktop and service environment assumed here.
 
 Take snapshots with Timeshift before you get adventurous. Future-you is a harsh code reviewer.
 
-## 3.1 Install Linux Mint Cinnamon
+## 5.1 Install Linux Mint Cinnamon
 
 Use the official documents. They are maintained; this paragraph is not a substitute for them.
 
@@ -44,7 +46,7 @@ Practical notes that the installer will not put on a motivational poster:
 - Fedora Workstation (GNOME): [Download](https://fedoraproject.org/workstation/download) · [Getting started / install](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/)
 - Fedora other desktops: [Fedora Spins](https://fedoraproject.org/spins/)
 
-## 3.2 First boot: become a boring, up-to-date machine
+## 5.2 First boot: become a boring, up-to-date machine
 
 1. Log into Cinnamon.
 2. Run **Update Manager** (shield icon) and install everything. Reboot if a kernel landed.
@@ -60,7 +62,7 @@ Then follow [Getting started with the Unix shell](https://github.com/amitsk/lear
 
 Mint ships **Timeshift**. After the first successful update, create a snapshot. It is the closest thing Linux has to a save point before a boss fight.
 
-## 3.3 apt: the grocery store
+## 5.3 apt: the grocery store
 
 On Mint (and Ubuntu), software is installed with **APT**. `apt` is the friendly frontend; `dpkg` is the low-level unpacker. You almost always want `apt`.
 
@@ -112,7 +114,7 @@ Mint prefers **Flatpak** for desktop apps that move fast (browsers, IDEs sometim
 
 **Fedora:** `sudo dnf upgrade --refresh` and `sudo dnf install git`. Docs: [Using DNF](https://docs.fedoraproject.org/en-US/quick-docs/dnf/).
 
-## 3.4 Basic tools and utilities
+## 5.4 Basic tools and utilities
 
 After the first upgrade:
 
@@ -136,7 +138,7 @@ git config --global user.email "you@example.com"
 
 The Cinnamon default (Menu → Terminal, or `Ctrl+Alt+T`) is GNOME Terminal. It works, and it is what this tutorial means when it says "open a terminal."
 
-If you want a faster or more modern emulator, the usual alternatives are [Ghostty](https://ghostty.org/), [Kitty](https://sw.kovidgoyal.net/kitty/), [Alacritty](https://alacritty.org/), and [WezTerm](https://wezfurlong.org/wezterm/). This author uses and recommends **Ghostty** when the machine can support it — it is GPU-accelerated and wants a reasonably recent OpenGL stack. If Ghostty will not launch, keep the default, especially on older laptops ([section 5](05-used-laptops.md)).
+If you want a faster or more modern emulator, the usual alternatives are [Ghostty](https://ghostty.org/), [Kitty](https://sw.kovidgoyal.net/kitty/), [Alacritty](https://alacritty.org/), and [WezTerm](https://wezfurlong.org/wezterm/). This author uses and recommends **Ghostty** when the machine can support it — it is GPU-accelerated and wants a reasonably recent OpenGL stack. If Ghostty will not launch, keep the default, especially on older laptops ([section 7](07-used-laptops.md)).
 
 Optional but pleasant:
 
@@ -146,7 +148,7 @@ Optional but pleasant:
 
 Editors (GUI and CLI) are compared in [learning-shell: text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md).
 
-## 3.5 SSH server: so the machine can be a machine
+## 5.5 SSH server: so the machine can be a machine
 
 You already have an **SSH client** (`ssh`). An **SSH server** (`sshd`) lets you log *into* this workstation from another computer — laptop in the other room, phone, future-you on a VM.
 
@@ -183,7 +185,7 @@ Keep SSH on the **LAN** unless you know what port forwarding, fail2ban, and "I e
 
 **Fedora:** `sudo dnf install openssh-server && sudo systemctl enable --now sshd`
 
-## 3.6 UFW: a firewall you will actually enable
+## 5.6 UFW: a firewall you will actually enable
 
 [UFW](https://help.ubuntu.com/community/UFW) (Uncomplicated Firewall) is a frontend to kernel packet filtering. Default desktop Mint may ship it inactive. A workstation that runs `sshd` should not.
 
@@ -202,7 +204,7 @@ Do **not** `ufw allow 5432` unless you *intend* other machines to talk to Postgr
 
 **Fedora:** firewalld instead of UFW. [Firewalld docs](https://docs.fedoraproject.org/en-US/quick-docs/firewalld/). Example: `sudo firewall-cmd --permanent --add-service=ssh && sudo firewall-cmd --reload`
 
-## 3.7 Users and groups
+## 5.7 Users and groups
 
 You will add a second user. This is useful for:
 
@@ -238,9 +240,9 @@ pwd
 exit
 ```
 
-## 3.8 PostgreSQL from scratch
+## 5.8 PostgreSQL from scratch
 
-Goal: a local PostgreSQL that you created, can log into, and can point an app at. Not a production HA cluster. Not Docker, not yet.
+Goal: a local PostgreSQL that you created, can log into, and can point an app at. Not a production HA cluster. This exercise installs PostgreSQL as a host service; the container approach in chapter 4 is a separate option.
 
 Official package docs (Mint uses Ubuntu packages):
 
@@ -328,7 +330,7 @@ Do not bind PostgreSQL to `0.0.0.0` and do not UFW-open 5432 for fun. Localhost 
 
 **Fedora:** `sudo dnf install postgresql-server postgresql-contrib` then `sudo postgresql-setup --initdb` and `sudo systemctl enable --now postgresql`. Fedora does **not** always init the cluster on package install — that extra `postgresql-setup` step is the "from scratch" part. See [PostgreSQL on Fedora](https://docs.fedoraproject.org/en-US/quick-docs/postgresql/).
 
-## 3.9 Developer tools: editors and coding agents
+## 5.9 Developer tools: editors and coding agents
 
 Install what you will actually open this semester. Bookmarks count; unused IDEs do not.
 
@@ -342,7 +344,7 @@ Install what you will actually open this semester. Bookmarks count; unused IDEs 
 sudo apt install code
 ```
 
-Language extensions (Python, Java, Go, Rust, C/C++) are listed in [section 4](04-languages.md#vs-code-extensions). Install VS Code here; add plugins after you have a compiler.
+Language extensions (Python, Java, Go, Rust, C/C++) are listed in [section 6](06-languages.md#vs-code-extensions). Install VS Code here; add plugins after you have a compiler.
 
 ### IntelliJ IDEA
 
@@ -379,7 +381,7 @@ Read the script or use the vendor's package when you can. "Curl to bash" is conv
 
 The learning-shell [text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) chapter also mentions Vim/Emacs keybindings inside Codex and Grok Build. Once you can exit Vim, you can survive an agent that opens it.
 
-## 3.10 Staying updated without superstition
+## 5.10 Staying updated without superstition
 
 Software updates are how you receive security fixes. They are not optional extra credit.
 
@@ -413,7 +415,7 @@ Mint tracks Ubuntu LTS. Stay on the supported release; in-place upgrades have an
 
 **Fedora:** `sudo dnf upgrade --refresh`. Fedora's cadence is faster; that is the point of Fedora.
 
-## 3.11 A reasonable "done" checklist
+## 5.11 A reasonable "done" checklist
 
 ```bash
 # OS and packages
@@ -438,9 +440,9 @@ code --version          # if you installed VS Code
 
 If those succeed, you have a workstation. Everything else is customization.
 
-## 3.12 Extra, still useful
+## 5.12 Extra, still useful
 
-- **Languages and compilers:** do not stop at distro `python3`. Use [section 4](04-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
+- **Languages and compilers:** do not stop at distro `python3`. Use [section 6](06-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
 - **Backups:** Timeshift for the *system*; copy `~/` (projects, `.ssh`, `.gitconfig`) separately. A snapshot of `/` does not replace Git remotes.
 - **Shell fluency:** keep going in [learning-shell](https://github.com/amitsk/learning-shell) — HTTP tools, awk, and Make show up in real build logs.
@@ -457,4 +459,4 @@ If those succeed, you have a workstation. Everything else is customization.
 
 ---
 
-**Next:** [Languages and toolchains →](04-languages.md)
+**Next:** [Languages and toolchains →](06-languages.md)

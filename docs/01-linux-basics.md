@@ -6,129 +6,31 @@ Linux is not one product. It is a **kernel** (the bit that talks to hardware) pl
 
 If you only remember one thing from this page: **pick a distro, install it, then learn the shell.** Distro-hopping is a hobby. Programming is the homework.
 
+## Linux is already around you
+
+Linux's reach extends far beyond desktop PCs. Its adaptable kernel and open-source development model let organizations build everything from small devices to large computing clusters.
+
+- **Cloud and servers:** Linux runs web applications, databases, build systems, and container hosts across AWS, Azure, and Google Cloud. Providers even maintain their own distributions, covered in [chapter 3](03-linux-distributions.md). [Amazon Linux](https://aws.amazon.com/linux/amazon-linux-2023/) is one example.
+- **Phones and tablets:** Android uses the Linux kernel beneath its own runtime, libraries, and app framework. That makes an Android phone part of the Linux ecosystem, but it does not give it the same desktop or package manager as Ubuntu. See the [Android architecture overview](https://source.android.com/docs/core/architecture).
+- **Embedded devices:** Routers, appliances, industrial equipment, and in-vehicle systems can use tailored Linux systems. The [Yocto Project](https://www.yoctoproject.org/) helps manufacturers build systems for their hardware; these often have neither a desktop nor a keyboard.
+- **Scientific computing:** Linux dominates large supercomputers used for simulations and research. [TOP500's Linux statistics](https://www.top500.org/statistics/details/osfam/1/) track its presence in that ranking.
+- **Personal computing and learning:** Linux also powers developer workstations and small computers such as the Raspberry Pi, whose official [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) is Debian-based.
+
+There is no single useful “Linux market share” across all these categories. Desktop usage alone misses phones, cloud infrastructure, and devices. Learning processes, permissions, networking, and the shell gives you concepts you can reuse across many of them.
+
 ## Why CS students end up on Linux
 
 - Course staff, cloud VMs, and internships assume POSIX tools: `ssh`, `git`, `make`, compilers, Python, databases.
-- Most servers you will ever deploy to are Linux. Developing on the same family of OS removes a whole class of "works on my machine" bugs.
+- Linux is common on the servers you will deploy to. Developing on the same family of OS removes a whole class of "works on my machine" bugs.
 - The command line is not optional in systems, networks, security, or DevOps courses. Start here: [amitsk/learning-shell](https://github.com/amitsk/learning-shell).
 
 Windows and macOS are fine computers. Linux is the one that matches the machines you are training for.
 
-## Distro, desktop, packages — three words, three jobs
+## The vocabulary you need
 
-```mermaid
-flowchart LR
-  subgraph Distro["A Linux distribution"]
-    K[Linux kernel]
-    T[Core tools: shell, libc, systemd, apt/dnf]
-    DE[Desktop environment]
-    Apps[Apps and libraries]
-  end
-  K --> T --> DE --> Apps
-```
+The **kernel** manages hardware and processes. **User space** contains programs such as shells, compilers, and browsers. A **distribution** packages the kernel and software with installation and update tools. A **desktop environment** provides the graphical interface.
 
-| Piece | Job | Example |
-| --- | --- | --- |
-| **Kernel** | Talks to CPU, RAM, disks, network cards | Linux |
-| **Userland tools** | Shell, compilers, init, package manager | GNU coreutils, `bash`, `apt` / `dnf` |
-| **Desktop environment** | Windows, panels, settings, file manager | Cinnamon, GNOME, XFCE, Budgie |
-| **Distribution** | Chooses versions, adds an installer, ships updates | Fedora, Ubuntu, Linux Mint |
-
-A distro is a **curated bundle**. Same kernel family, different opinions about defaults. [Section 2](02-linux-design.md) unpacks the design. This section is about choosing the bundle.
-
-## Three distros worth knowing
-
-You only need to *install* one. You should *recognize* these three, because they show up in class, internships, and "please help my laptop" group chats.
-
-### Linux Mint — the recommended first desktop
-
-[Linux Mint](https://linuxmint.com/) is Ubuntu-based, ships a familiar desktop, and does not try to reinvent the taskbar every six months. **Cinnamon edition** is the one this tutorial installs in [section 3](03-dev-workstation.md).
-
-- Downloads: [linuxmint.com/download.php](https://linuxmint.com/download.php)
-- Installer: [Linux Mint Installation Guide](https://linuxmint-installation-guide.readthedocs.io/en/latest/)
-- Editions: **Cinnamon** (default, polished), **MATE** (lighter classic), **XFCE** (lightest official edition)
-
-Mint is the "I want this to feel like a normal computer" option. That is a feature, not a lack of street cred.
-
-### Ubuntu — the one the internet assumes you have
-
-[Ubuntu](https://ubuntu.com/) is Debian-based, extremely well documented, and the default answer when a README says "on Linux." Default desktop is **GNOME**. Flavors swap the desktop without leaving the Ubuntu family.
-
-- Desktop install tutorial: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop)
-- Flavors: [Ubuntu flavors](https://ubuntu.com/desktop/flavours)
-  - [Ubuntu Desktop](https://ubuntu.com/desktop) — GNOME
-  - [Xubuntu](https://xubuntu.org/) — XFCE
-  - [Ubuntu Budgie](https://ubuntubudgie.org/) — Budgie
-- Server (no GUI, typical for VMs): [Ubuntu Server](https://ubuntu.com/download/server)
-
-If a cloud assignment, Docker doc, or internship laptop image says Ubuntu, this is why.
-
-### Fedora — the one that lives closer to upstream
-
-[Fedora](https://fedoraproject.org/) is sponsored by Red Hat and ships newer kernels, GNOME, and toolchains sooner than Ubuntu/Mint. Package manager is **DNF**, not APT. Excellent if you want to see "what Linux looks like six months from now."
-
-- Workstation download: [Fedora Workstation](https://fedoraproject.org/workstation/download)
-- Install guide: [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/)
-- Other desktops: [Fedora Spins](https://fedoraproject.org/spins/), including [Fedora XFCE](https://fedoraproject.org/spins/xfce/) and [Fedora Budgie](https://fedoraproject.org/spins/budgie/)
-
-Fedora is a great *second* distro. Learn Mint or Ubuntu first so `apt` muscle memory exists, then try Fedora when you are bored of being comfortable.
-
-### Quick comparison
-
-| | **Linux Mint** | **Ubuntu** | **Fedora** |
-| --- | --- | --- | --- |
-| Family | Ubuntu / Debian | Debian | Red Hat |
-| Packages | `apt` | `apt` | `dnf` |
-| Default desktop | Cinnamon | GNOME | GNOME |
-| Release feel | Stable, conservative | LTS + interim | Fresh, ~6 month cadence |
-| Best first use | Daily driver, older laptops | Class / cloud familiarity | Upstream and newer hardware |
-| Official start | [Download Mint](https://linuxmint.com/download.php) | [Install Ubuntu](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora Workstation](https://fedoraproject.org/workstation/download) |
-
-There are hundreds of other distros. Arch, openSUSE, Debian, NixOS, and friends are all real. They are not your first desktop unless you enjoy installing a Wi-Fi driver as a personality.
-
-## Desktop flavors: XFCE, GNOME, Budgie (and Cinnamon)
-
-The **desktop environment (DE)** is the GUI: panel, app menu, window decorations, settings. Same distro, different DE, wildly different vibe. Think "same kitchen, different cabinets."
-
-```mermaid
-flowchart TB
-  subgraph Hardware
-    HW[Laptop or desktop]
-  end
-  subgraph OS["Linux distro"]
-    Kernel[Linux kernel]
-    Display[Display server: Wayland or X11]
-    DE[Desktop environment]
-    WM[Window manager, often inside the DE]
-  end
-  HW --> Kernel --> Display --> DE
-  DE --> WM
-  DE --> Apps[Terminal, browser, files, IDE]
-```
-
-### GNOME
-
-[GNOME](https://www.gnome.org/) is the default on Ubuntu Desktop and Fedora Workstation. Overview screen, extensions, a "this is a modern desktop" design language. Powerful, polished, and occasionally allergic to title-bar buttons you grew up with.
-
-Use GNOME if you want the mainstream Ubuntu/Fedora experience.
-
-### XFCE
-
-[XFCE](https://www.xfce.org/) is light, traditional, and kind to old laptops. Panels, a menu, not much animation. Ships as **Xubuntu**, Mint XFCE, and a [Fedora XFCE Spin](https://fedoraproject.org/spins/xfce/).
-
-Use XFCE if the machine is used, RAM is tight, or you want the UI to stay out of the way. See [Used laptops](05-used-laptops.md).
-
-### Budgie
-
-[Budgie](https://buddiesofbudgie.org/) is a clean, Raven-sidebar desktop. On Ubuntu it is [Ubuntu Budgie](https://ubuntubudgie.org/). Fedora has offered Budgie as a spin / atomic desktop depending on the release — check the current [Fedora spins](https://fedoraproject.org/spins/) page.
-
-Use Budgie if you want something prettier than XFCE and less "GNOME overview" than GNOME.
-
-### Cinnamon (this tutorial's default)
-
-[Cinnamon](https://github.com/linuxmint/cinnamon) is Mint's flagship: start menu, system tray, workspaces, a layout Windows/macOS refugees recognize in under a minute. That is why [section 3](03-dev-workstation.md) uses **Linux Mint Cinnamon edition**.
-
-You can install other DEs later with the package manager. Do not do that on day one. Get one desktop working, then customize.
+[Chapter 2](02-linux-design.md) explains how those pieces fit together. [Chapter 3](03-linux-distributions.md) helps you choose a distro and desktop, and [chapter 4](04-running-linux.md) shows how to try Linux in a VM or container.
 
 ## You still need the terminal
 
@@ -139,7 +41,7 @@ Start here, in this order:
 1. [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) — setup, first script, SSH keys
 2. [Text editors on the command line](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) — nano, Vim, and how to exit Vim
 3. [Bash basics](https://github.com/amitsk/learning-shell/blob/main/scripts/basic_shell.md) and [Bash tools](https://github.com/amitsk/learning-shell/blob/main/scripts/tools_bash.md)
-4. [Users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md) — you will use this in [section 3](03-dev-workstation.md)
+4. [Users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md) — you will use this in [section 5](05-dev-workstation.md)
 
 The rest of [learning-shell](https://github.com/amitsk/learning-shell) (sed, awk, HTTP tools, Make) can wait until you have a machine and a prompt.
 
@@ -155,39 +57,7 @@ man ls       # the manual; q to quit
 sudo apt update   # on Mint/Ubuntu: refresh package lists
 ```
 
-On Fedora, the last line is `sudo dnf upgrade --refresh`. Different grocery store, same idea.
-
-## Ways to run Linux without drama
-
-| Approach | When to use it | Tradeoff |
-| --- | --- | --- |
-| **Dedicated install** (this tutorial) | You have a spare/used laptop, or you are ready to make Linux the main OS | Cleanest driver story; you own the machine |
-| **Dual boot** | You still need Windows/macOS for one app | Works; disk partitioning is the scary part. Follow the distro's official installer, take backups |
-| **Virtual machine** | You cannot touch the host disk yet | Safe playground, slower, worse GPU. [VirtualBox](https://www.virtualbox.org/) or [virt-manager](https://virt-manager.org/) |
-| **WSL2 on Windows** | Your only computer is a locked-down Windows laptop | Great for shell + compilers, *not* a full Linux desktop. See [learning-shell getting started](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) |
-
-If the goal is "learn Linux as a desktop," install it on real hardware. A used ThinkPad from [section 5](05-used-laptops.md) beats a sluggish VM for morale.
-
-## Package managers in one paragraph
-
-Software on Linux does not start with a random installer `.exe`. You ask the distro's **package manager** for a package, it pulls a signed build, and updates flow through the same pipe.
-
-- Mint / Ubuntu: **APT** — `apt update`, `apt install`, `apt upgrade`. Full walkthrough in [section 3](03-dev-workstation.md).
-- Fedora: **DNF** — `dnf install`, `dnf upgrade`. Docs: [DNF on Fedora](https://docs.fedoraproject.org/en-US/quick-docs/dnf/).
-
-There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and language-level tools (`pip`, `npm`, `cargo`). Distro packages first; random scripts from blogs later, and only after you read them.
-
-## What "flavor" should *you* install?
-
-**Default recommendation:** [Linux Mint Cinnamon](https://linuxmint.com/download.php).
-
-Choose something else only if:
-
-- The laptop is ancient and sad → Mint **XFCE** or [Xubuntu](https://xubuntu.org/)
-- A course or cloud image is Ubuntu-shaped → [Ubuntu Desktop](https://ubuntu.com/desktop) (GNOME) or [Ubuntu Budgie](https://ubuntubudgie.org/)
-- You want newer packages and GNOME as upstream sees it → [Fedora Workstation](https://fedoraproject.org/workstation/download)
-
-Then stop shopping. An installed OS teaches more than a spreadsheet of distro logos.
+On Fedora, `sudo dnf makecache --refresh` refreshes repository metadata. `sudo dnf upgrade --refresh` also installs available upgrades; it is closer to running `apt update` followed by `apt upgrade`.
 
 ## Extra reading (still beginner-friendly)
 
