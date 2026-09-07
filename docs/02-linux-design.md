@@ -1,14 +1,14 @@
 # 2. How Linux is put together
 
-[← Basics of Linux](01-linux-basics.md) · [Home](../README.md) · [Development workstation →](03-dev-workstation.md)
+[← Basics of Linux](01-linux-basics.md) · [Home](../README.md) · [Choosing a distribution →](03-linux-distributions.md)
 
-Linux is a **kernel**. Ubuntu, Fedora, and Mint are **distributions**: the kernel plus a pile of user-space programs, an installer, a desktop, and a promise to ship updates. Confusing the two is how you get into arguments that eat an entire lab session.
+Linux is a **kernel**. Ubuntu, Fedora, and Mint are **distributions**: the kernel plus a pile of user-space programs, installation tools, an optional desktop, and a promise to ship updates. Confusing the two is how you get into arguments that eat an entire lab session.
 
 This section is the mental model. You do not need to compile a kernel. You do need to know which layer is on fire when something breaks.
 
 ## The one-sentence design
 
-> Linux is a kernel. A distro is that kernel **bundled** with GNU (and other) tools, a service manager, a package manager, and usually a desktop.
+> Linux is a kernel. A distro is that kernel **bundled** with GNU (and other) tools, a service manager, a package manager, and, for desktop editions, a graphical environment.
 
 ```text
 +--------------------------------------------------+
@@ -50,7 +50,7 @@ flowchart TB
 | **Linux** (strict) | The kernel: [kernel.org](https://kernel.org/) |
 | **GNU/Linux** | Kernel + GNU userland (`bash`, `ls`, `gcc`, glibc). The old naming fight. Both names are used; the software is the same idea |
 | **Distribution** | Someone's recipe: which kernel version, which packages, which desktop, how updates work |
-| **Desktop environment** | GUI shell on top of that recipe. See [section 1](01-linux-basics.md) |
+| **Desktop environment** | GUI shell on top of that recipe. See [chapter 3](03-linux-distributions.md) |
 
 Mint, Ubuntu, and Fedora all run *a* Linux kernel. They disagree about package format (`.deb` vs `.rpm`), release cadence, and which settings ship out of the box.
 
@@ -83,7 +83,7 @@ sequenceDiagram
   Libc-->>You: file handle or error
 ```
 
-When a command "fails with Permission denied," that is usually the kernel enforcing a rule, not the shell being rude. Users and groups are covered in [learning-shell: users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md) and practiced in [section 3](03-dev-workstation.md).
+When a command "fails with Permission denied," that is usually the kernel enforcing a rule, not the shell being rude. Users and groups are covered in [learning-shell: users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md) and practiced in [section 5](05-dev-workstation.md).
 
 ## Userland: the "tooling" in "kernel bundled with tooling"
 
@@ -101,6 +101,8 @@ If you installed *only* a kernel, you would have a very expensive brick. The dis
 
 "GNU/Linux" is this split in a name: GNU tools + Linux kernel. Distros also add a lot that is *not* GNU (systemd, LLVM, Firefox, Cinnamon, Flatpak). The slogan is historical; the architecture is "kernel in ring 0, everything else as processes."
 
+The stack above describes this tutorial's desktop distributions. Embedded systems and container images can use different libraries or service tools, and often omit the desktop entirely.
+
 ## Boot: from firmware to a desktop
 
 Knowing the boot path helps the first time a machine stops at a black screen and you have to guess which layer died.
@@ -115,13 +117,13 @@ flowchart LR
   F --> G[Your terminal and IDE]
 ```
 
-1. **UEFI/BIOS** initializes hardware. This is where Secure Boot and "boot from USB" live. Relevant on [used laptops](05-used-laptops.md).
+1. **UEFI/BIOS** initializes hardware. This is where Secure Boot and "boot from USB" live. Relevant on [used laptops](07-used-laptops.md).
 2. **GRUB** (usually) loads the kernel and an **initramfs** (tiny root filesystem for finding the real disk).
 3. The **kernel** takes over, mounts the real root filesystem.
 4. **systemd** becomes process 1 and starts units: networking, `sshd`, `postgresql`, the display manager (`lightdm` on Mint Cinnamon).
 5. You log in. The DE is just another set of user processes.
 
-`systemctl status` is how you ask systemd "is this service alive?" You will use it for SSH and PostgreSQL in [section 3](03-dev-workstation.md).
+`systemctl status` is how you ask systemd "is this service alive?" You will use it for SSH and PostgreSQL in [section 5](05-dev-workstation.md).
 
 ## Processes, files, and the "everything is a file" joke
 
@@ -142,7 +144,7 @@ Useful consequences:
 
 - Pipes (`cmd1 | cmd2`) are kernel plumbing. Practice in [learning-shell](https://github.com/amitsk/learning-shell).
 - Permissions are on files (and directories). `/etc` is config; `/home/you` is yours; `/var/lib/postgresql` is the database's house.
-- A service is a long-running process plus a systemd unit that restarts it.
+- On these distros, systemd manages services through units; restarting a failed process depends on the unit's configuration.
 
 The filesystem layout is documented in `man hier` and the [Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html). Short version:
 
@@ -169,7 +171,7 @@ flowchart LR
   Lists --> Mirror[Distro mirror]
 ```
 
-- **Mint / Ubuntu:** `apt` talks to repos, `dpkg` unpacks `.deb` files. Details in [section 3 — apt](03-dev-workstation.md#apt-the-grocery-store).
+- **Mint / Ubuntu:** `apt` talks to repos, `dpkg` unpacks `.deb` files. Details in [section 5 — apt](05-dev-workstation.md#53-apt-the-grocery-store).
 - **Fedora:** `dnf` + `rpm`. Same idea, different file format.
 
 That is why "curl a random installer" is the exception, not the default. The bundle is the product.
@@ -180,29 +182,9 @@ The kernel distinguishes **UID 0** (root) from everyone else. Root can install k
 
 Desktop distros give your first user **sudo** — permission to run *one command* as root, with an audit trail. Use it for `apt`, `systemctl`, `ufw`, and user management. Do daily coding as a normal user. PostgreSQL will even refuse to run as root, which is the database equivalent of "I'm not sitting in the splash zone."
 
-## Distros as different bundles of the same idea
-
-```mermaid
-flowchart TB
-  K[Linux kernel]
-  K --> Mint["Linux Mint<br/>kernel + apt/dpkg + Cinnamon + Ubuntu repos + Timeshift"]
-  K --> Ubuntu["Ubuntu<br/>kernel + apt/dpkg + GNOME or flavor DE + Canonical repos"]
-  K --> Fedora["Fedora<br/>kernel + dnf/rpm + GNOME + Fedora/RPM repos"]
-```
-
-Same design, different defaults:
-
-- **Which kernel and how soon** you get new drivers
-- **Which libc and compiler** versions
-- **Which init and DE**
-- **Which package format and update policy**
-- **Which extra opinions** (Mint: Timeshift snapshots and Flatpak; Ubuntu: snaps; Fedora: newer GNOME)
-
-When a tutorial says "Linux command," it usually means a **userland** command that exists on all three. When it says `apt install`, it means Debian-family. Translate, do not panic.
-
 ## What to do with this model
 
-You now have enough architecture to follow [section 3](03-dev-workstation.md) without treating every command as a magic spell:
+You now have enough architecture to follow [section 5](05-dev-workstation.md) without treating every command as a magic spell:
 
 | Symptom | Likely layer |
 | --- | --- |
@@ -221,4 +203,4 @@ Deeper dives, when you want them:
 
 ---
 
-**Next:** [Setting up a development workstation →](03-dev-workstation.md)
+**Next:** [Choosing a Linux distribution →](03-linux-distributions.md)

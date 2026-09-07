@@ -1,10 +1,10 @@
-# 5. Used laptops and Linux resurrection
+# 7. Used laptops and Linux resurrection
 
-[← Languages and toolchains](04-languages.md) · [Home](../README.md)
+[← Languages and toolchains](06-languages.md) · [Home](../README.md)
 
 Linux is the best reason to buy last year's laptop and the best way to make a 2015 "paperweight" useful again. You do not need a glowing RGB spaceship to compile homework. You need RAM, an SSD, and a kernel that knows the Wi-Fi chip.
 
-This section is shopping advice plus revival advice. Pair it with [Linux Mint Cinnamon](03-dev-workstation.md) on decent hardware, or Mint **XFCE** / [Xubuntu](https://xubuntu.org/) if the machine is tired.
+This section is shopping advice plus revival advice. Pair it with [Linux Mint Cinnamon](05-dev-workstation.md) on decent hardware, or Mint **XFCE** / [Xubuntu](https://xubuntu.org/) if the machine is tired.
 
 ## Why used + Linux is a CS student cheat code
 
@@ -41,7 +41,7 @@ Look for **business lines**, not last year's gaming slab with a melted keyboard:
 
 Skip, or research hard:
 
-- **Macs with Apple silicon** — excellent machines, Linux support is a project ([Asahi Linux](https://asahilinux.org/)), not a first-weekend Mint install.
+- **Macs with Apple silicon** — for a hardware install, research support for the exact model through [Asahi Linux](https://asahilinux.org/). To learn Linux on a Mac you already own, an ARM64 VM is another route; see [chapter 4](04-running-linux.md#other-vm-tools-and-wsl).
 - **Windows S-mode / locked firmware** school laptops — you may not own the bootloader.
 - **No-name specials** with 4 GB soldered RAM and 32 GB eMMC. Linux will install. You will hate it.
 - **Very new ultra-light consumer laptops** with Wi-Fi 6E/7 chips that landed last month. Wait for a kernel, or buy Intel Wi-Fi.
@@ -91,7 +91,7 @@ flowchart TD
 2. **Swap HDD → SSD** if the machine still has a spinning disk. This single change does more than a new distro. Clone or just reinstall; reinstall is cleaner.
 3. **Max the RAM** if there are empty slots. 2×8 GB is the student sweet spot.
 4. **Install Linux Mint.** Cinnamon if the CPU is from the last decade; **XFCE edition** if it wheezes. Guide: [Mint installation](https://linuxmint-installation-guide.readthedocs.io/en/latest/).
-5. **First boot:** Update Manager, Driver Manager, then [section 3](03-dev-workstation.md) and [section 4](04-languages.md).
+5. **First boot:** Update Manager, Driver Manager, then [section 5](05-dev-workstation.md) and [section 6](06-languages.md).
 6. **Power:** install `tlp` on older ThinkPads if you care about battery. Mint often feels fine without it; measure before you tune.
 
 If the live USB cannot see the disk, look in firmware for **SATA mode**. RAID/RST often needs to be AHCI for a normal install. Changing that on a disk that still has Windows will make Windows unhappy — another reason to backup and commit.
@@ -113,7 +113,7 @@ Budget-ish, not a shopping affiliate list:
 - Replacement charger from a reputable vendor (cheap no-name bricks start fires)
 - Optional: USB ethernet dongle for the first afternoon
 
-Then install Cinnamon or XFCE and go back to [section 3](03-dev-workstation.md) and [section 4](04-languages.md). The hardware is the boring part. The boring part is the point.
+Then install Cinnamon or XFCE and go back to [section 5](05-dev-workstation.md) and [section 6](06-languages.md). The hardware is the boring part. The boring part is the point.
 
 ## Further reading
 
@@ -124,4 +124,4 @@ Then install Cinnamon or XFCE and go back to [section 3](03-dev-workstation.md) 
 
 ---
 
-[← Languages and toolchains](04-languages.md) · [Back to the start](../README.md)
+[← Languages and toolchains](06-languages.md) · [Back to the start](../README.md)
