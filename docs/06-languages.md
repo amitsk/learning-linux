@@ -68,7 +68,7 @@ mise doctor
 
 Zsh: `eval "$(~/.local/bin/mise activate zsh)"` in `~/.zshrc`. Full matrix: [activate mise](https://mise.jdx.dev/getting-started.html#activate-mise).
 
-Until activate is done, prefix commands with `~/.local/bin/mise`.
+Until activate is done, prefix commands with `~/.local/bin/mise`. If your shell says `mise: command not found` right after `source ~/.bashrc`, simply close and reopen the terminal window so Bash cleanly reloads your environment.
 
 ### Everyday commands
 
