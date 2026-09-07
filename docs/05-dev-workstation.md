@@ -219,7 +219,7 @@ On Debian/Mint, prefer `adduser` (interactive, creates a home directory) over ra
 ```bash
 sudo adduser student          # follow the prompts
 sudo groupadd cs101
-sudo adduser student cs101    # add existing user to a group
+sudo adduser student cs101    # Debian/Mint shortcut; on Fedora use: sudo usermod -aG cs101 student
 id student
 groups student
 ```
@@ -230,7 +230,7 @@ Give someone sudo (think twice):
 sudo usermod -aG sudo student
 ```
 
-The `-a` in `-aG` is "append." Forget it and you replace their group list with one group. That is a rite of passage. It is also annoying.
+The `-a` in `-aG` is "append." Forget it and you replace their entire supplementary group list with just that one group. That is a rite of passage. It is also annoying.
 
 Switch user to test:
 
@@ -273,12 +273,16 @@ Inside `psql`:
 CREATE USER devuser WITH PASSWORD 'change-me-now';
 CREATE DATABASE homework OWNER devuser;
 GRANT ALL PRIVILEGES ON DATABASE homework TO devuser;
+\c homework
+GRANT ALL ON SCHEMA public TO devuser;
 \du
 \l
 \q
 ```
 
 Pick a real password. "change-me-now" is a sample, not a lifestyle.
+
+> **PostgreSQL 15+ Note:** Modern distros ship PostgreSQL 15 or 16. In these releases, default permissions on the `public` schema are tightened for security. Running `\c homework` and `GRANT ALL ON SCHEMA public TO devuser;` ensures your user can create tables without getting hit with a `permission denied for schema public` error.
 
 ### Connect as that user
 
@@ -288,11 +292,9 @@ Mint/Ubuntu default `pg_hba.conf` uses **peer** auth for local Unix sockets (you
 psql -h 127.0.0.1 -U devuser -d homework
 ```
 
-`-h 127.0.0.1` forces TCP so the password you set actually gets asked. On first connect you may need:
+`-h 127.0.0.1` forces TCP so the password you set actually gets asked.
 
-```bash
-sudo -u postgres psql -c "ALTER USER devuser WITH PASSWORD 'change-me-now';"
-```
+*(Troubleshooting tip: If you typoed your password earlier or authentication fails, you can reset `devuser`'s password anytime from the postgres superuser: `sudo -u postgres psql -c "ALTER USER devuser WITH PASSWORD 'change-me-now';"`)*
 
 Sanity check:
 
@@ -361,7 +363,9 @@ Community Edition is enough for Java coursework. Ultimate is a paid product; use
 
 ### AI coding CLIs
 
-These are optional. They are also what a lot of students will be asked about. Official installers change; prefer the docs over copying a `curl | bash` from memory.
+These are optional. They are also what a lot of students will be asked about in hackathons and internships. Official installers change; prefer the docs over copying a `curl | bash` from memory.
+
+> **Syllabus sanity check:** Before pointing an autonomous coding agent at your data structures assignment, check your course's AI policy. Getting an academic misconduct hearing because an agent hallucinated a non-standard Fibonacci heap is an expensive way to learn about prompts. Use them to learn, debug, and build personal projects—not to bypass understanding.
 
 | Tool | What it is | Start here |
 | --- | --- | --- |

@@ -58,22 +58,6 @@ Fedora can also be a first distro, especially when a course requires it or newer
 
 Explore [DistroWatch](https://distrowatch.com/) for distribution summaries, release news, and links to project websites. Its page-hit ranking measures interest on that site, not installed market share or quality. Debian, Arch, openSUSE, and NixOS offer other approaches; compare their installation and maintenance requirements before choosing.
 
-## Distributions made by cloud providers
-
-Cloud providers also maintain Linux distributions. These focus on server and container workloads, so they usually omit the desktop you would expect on a student laptop.
-
-| Provider | Distribution | What it is for |
-| --- | --- | --- |
-| **AWS** | [Amazon Linux](https://docs.aws.amazon.com/linux/al2023/ug/what-is-amazon-linux.html) | AWS-maintained Linux for applications on EC2; Amazon Linux 2023 uses RPM packages and DNF. AWS also makes [Bottlerocket](https://bottlerocket.dev/), a minimal OS designed to host containers. |
-| **Microsoft Azure** | [Azure Linux](https://azure.microsoft.com/en-us/products/azure-linux/) | Microsoft's Linux distribution for cloud workloads. The [Azure Linux Container Host](https://learn.microsoft.com/en-us/azure/azure-linux/azure-linux-aks-overview) provides an OS for nodes in Azure Kubernetes Service (AKS). The project was previously called CBL-Mariner. |
-| **Google Cloud (GCP)** | [Container-Optimized OS](https://docs.cloud.google.com/container-optimized-os/docs) | Google's maintained, Chromium OS-based Linux image for running containers on Compute Engine VMs and GKE nodes. It is designed as a container host, with a small footprint and a read-only root filesystem. |
-
-These are provider-created operating systems, distinct from Ubuntu or Debian images that providers also offer. Your cloud application does not necessarily need the provider's own distro. A container can contain Ubuntu user-space packages while its host runs a different Linux distribution; [chapter 4](04-running-linux.md) explains that boundary.
-
-## Omarchy: a curated Arch desktop
-
-[Omarchy](https://omarchy.org/manual/) is an opinionated, Arch-based Linux distribution that assembles a complete developer desktop around the Hyprland tiling window manager. “Omakase” means accepting the project's selected tools, themes, shortcuts, and workflow. Its emphasis is a cohesive, keyboard-driven environment: windows tile into place, and many desktop decisions are already made for you. Compared with Mint or Ubuntu's conventional desktop defaults, this takes more adjustment; compared with the cloud distributions above, it is aimed at an interactive workstation. It inherits Arch's rolling-release approach and uses its own packaging and update integration, so this guide's APT commands do not apply. Read the [Omarchy update guide](https://omarchy.org/manual/updates/) before adopting it; choose it because you want that workflow, while Mint remains this tutorial's reference desktop.
-
 ## Desktop flavors: XFCE, GNOME, Budgie (and Cinnamon)
 
 The **desktop environment (DE)** is the GUI: panel, app menu, window decorations, settings. Same distro, different DE, wildly different vibe. Think "same kitchen, different cabinets."
@@ -99,9 +83,15 @@ flowchart TB
   DE --> Apps[Terminal, browser, files, IDE]
 ```
 
+### Cinnamon (this tutorial's default)
+
+[Cinnamon](https://github.com/linuxmint/cinnamon) is Mint's flagship: start menu, system tray, workspaces, a layout Windows/macOS refugees recognize in under a minute. That is why [section 5](05-dev-workstation.md) uses **Linux Mint Cinnamon edition**.
+
+You can install other DEs later with the package manager. Do not do that on day one. Get one desktop working, then customize.
+
 ### GNOME
 
-[GNOME](https://www.gnome.org/) is the default on Ubuntu Desktop and Fedora Workstation. Overview screen, extensions, a "this is a modern desktop" design language. Powerful, polished, and occasionally allergic to title-bar buttons you grew up with.
+[GNOME](https://www.gnome.org/) is the default on Ubuntu Desktop and Fedora Workstation. Overview screen, gestures, a "this is a modern desktop" design language. Powerful, polished, and occasionally allergic to minimize buttons you grew up with.
 
 Use GNOME if you want the mainstream Ubuntu/Fedora experience.
 
@@ -117,12 +107,6 @@ Use XFCE if the machine is used, RAM is tight, or you want the UI to stay out of
 
 Use Budgie if you want something prettier than XFCE and less "GNOME overview" than GNOME.
 
-### Cinnamon (this tutorial's default)
-
-[Cinnamon](https://github.com/linuxmint/cinnamon) is Mint's flagship: start menu, system tray, workspaces, a layout Windows/macOS refugees recognize in under a minute. That is why [section 5](05-dev-workstation.md) uses **Linux Mint Cinnamon edition**.
-
-You can install other DEs later with the package manager. Do not do that on day one. Get one desktop working, then customize.
-
 ## Package managers in one paragraph
 
 Software on Linux does not start with a random installer `.exe`. You ask the distro's **package manager** for a package, it pulls a signed build, and updates flow through the same pipe.
@@ -130,7 +114,7 @@ Software on Linux does not start with a random installer `.exe`. You ask the dis
 - Mint / Ubuntu: **APT** — `apt update`, `apt install`, `apt upgrade`. Full walkthrough in [section 5](05-dev-workstation.md).
 - Fedora: **DNF** — `dnf install`, `dnf upgrade`. Docs: [DNF on Fedora](https://docs.fedoraproject.org/en-US/quick-docs/dnf/).
 
-There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and language-level tools (`pip`, `npm`, `cargo`). Distro packages first; random scripts from blogs later, and only after you read them.
+There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and language-level tools (`uv`, `cargo`, `npm`). Distro packages first; random scripts from blogs later, and only after you read them.
 
 ## What "flavor" should *you* install?
 
@@ -138,11 +122,29 @@ There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and 
 
 Choose something else only if:
 
-- The laptop is ancient and sad → Mint **XFCE** or [Xubuntu](https://xubuntu.org/)
-- A course or cloud image is Ubuntu-shaped → [Ubuntu Desktop](https://ubuntu.com/desktop) (GNOME) or [Ubuntu Budgie](https://ubuntubudgie.org/)
+- The laptop is ancient and tired → Mint **XFCE** or [Xubuntu](https://xubuntu.org/)
+- A course or cloud assignment is explicitly Ubuntu-shaped → [Ubuntu Desktop](https://ubuntu.com/desktop) (GNOME) or [Ubuntu Budgie](https://ubuntubudgie.org/)
 - You want newer packages and GNOME as upstream sees it → [Fedora Workstation](https://fedoraproject.org/workstation/download)
 
 Then stop shopping. An installed OS teaches more than a spreadsheet of distro logos.
+
+## Industry context: Distributions made by cloud providers
+
+When you enter industry or launch cloud VMs, you will notice major cloud providers maintain their own Linux distributions. These focus strictly on server and container workloads; **they deliberately omit the desktop environment** you want on a student workstation.
+
+| Provider | Distribution | What it is for |
+| --- | --- | --- |
+| **AWS** | [Amazon Linux](https://docs.aws.amazon.com/linux/al2023/ug/what-is-amazon-linux.html) | AWS-maintained Linux for applications on EC2; Amazon Linux 2023 uses RPM packages and DNF. AWS also makes [Bottlerocket](https://bottlerocket.dev/), a minimal OS designed to host containers. |
+| **Microsoft Azure** | [Azure Linux](https://azure.microsoft.com/en-us/products/azure-linux/) | Microsoft's Linux distribution for cloud workloads (formerly CBL-Mariner). The [Azure Linux Container Host](https://learn.microsoft.com/en-us/azure/azure-linux/azure-linux-aks-overview) provides an OS for Kubernetes (AKS) nodes. |
+| **Google Cloud (GCP)** | [Container-Optimized OS](https://docs.cloud.google.com/container-optimized-os/docs) | Google's minimal, Chromium OS-based Linux image designed to run containers on Compute Engine and GKE nodes with a locked-down, read-only root filesystem. |
+
+You do not install these on your laptop. But when your future employer asks you to deploy to Amazon Linux, you can smile knowingly: under the branding, it's still Linux with familiar POSIX tools and DNF packages.
+
+## Curiosity for later: Omarchy
+
+[Omarchy](https://omarchy.org/manual/) is an opinionated, Arch-based Linux distribution that assembles a complete developer desktop around the Hyprland tiling window manager. “Omakase” means accepting the chef's pre-selected tools, keybindings, and aesthetic.
+
+It looks gorgeous in r/unixporn screenshots, but debugging a tiling window manager config when you have a CS project due at midnight is a special circle of grief. Keep Omarchy bookmarked for winter break; start your semester with Mint.
 
 ---
 

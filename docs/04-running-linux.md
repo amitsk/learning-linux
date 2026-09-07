@@ -74,7 +74,9 @@ This image starts the shell as root, so the example does not use `sudo`. That di
 
 This is a small command-line environment, with no Cinnamon desktop and usually no systemd running as PID 1. It is well suited to trying packages, builds, or a database process. [Podman](https://podman.io/docs) is an alternative container tool with a similar `podman run --rm -it ubuntu:24.04 bash` workflow once installed and configured.
 
-## The same container model in the cloud
+## Industry context: The same container model in the cloud
+
+*(You do **not** need a cloud account, a credit card, or a Kubernetes cluster for this tutorial. This section is just a preview of where your container knowledge travels after graduation.)*
 
 The image you build locally can also become a cloud deployment artifact. Typically you build and test it, push it to a registry, then configure a service to pull it and run containers. The provider schedules and restarts your application; Linux remains underneath. Managed runtimes may add VM or sandbox isolation, so the exact host arrangement varies.
 

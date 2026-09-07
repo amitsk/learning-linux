@@ -4,6 +4,8 @@
 
 Linux is the best reason to buy last year's laptop and the best way to make a 2015 "paperweight" useful again. You do not need a glowing RGB spaceship to compile homework. You need RAM, an SSD, and a kernel that knows the Wi-Fi chip.
 
+> **Shopping for hardware?** This is the physical starting point for **Track B** described on the [Home](../README.md) page. Once you have working metal in your hands and a live USB booted, you'll roll straight into [choosing your edition](03-linux-distributions.md) and [workstation setup](05-dev-workstation.md).
+
 This section is shopping advice plus revival advice. Pair it with [Linux Mint Cinnamon](05-dev-workstation.md) on decent hardware, or Mint **XFCE** / [Xubuntu](https://xubuntu.org/) if the machine is tired.
 
 ## Why used + Linux is a CS student cheat code

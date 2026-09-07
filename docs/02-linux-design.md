@@ -6,6 +6,8 @@ Linux is a **kernel**. Ubuntu, Fedora, and Mint are **distributions**: the kerne
 
 This section is the mental model. You do not need to compile a kernel. You do need to know which layer is on fire when something breaks.
 
+> **Impatient hands-on learner?** If you prefer to get an OS running before inspecting the engine under the hood, feel free to jump ahead to [Choosing a distribution](03-linux-distributions.md) and [Running Linux](04-running-linux.md), then circle back here once your terminal prompt is blinking.
+
 ## The one-sentence design
 
 > Linux is a kernel. A distro is that kernel **bundled** with GNU (and other) tools, a service manager, a package manager, and, for desktop editions, a graphical environment.

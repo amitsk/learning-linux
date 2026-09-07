@@ -34,11 +34,19 @@ Prefer **links over copies**. Official installers change; this tutorial should n
 
 ## Suggested path for a first weekend
 
-1. Read [basics](docs/01-linux-basics.md) and [Linux design](docs/02-linux-design.md) for the vocabulary.
-2. Pick a distro in [chapter 3](docs/03-linux-distributions.md); this tutorial uses **Linux Mint Cinnamon**.
-3. Choose a VM or hardware install in [chapter 4](docs/04-running-linux.md). If buying a used laptop, read [chapter 7](docs/07-used-laptops.md) before shopping.
-4. Follow [workstation setup](docs/05-dev-workstation.md) on your installed Linux system, then add [language toolchains](docs/06-languages.md).
-5. Work through [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) alongside those steps.
+Pick your track based on the machine in front of you:
+
+- **Track A (Fastest & Zero Risk — Existing Windows or Mac):**
+  1. Read [basics](docs/01-linux-basics.md) and skim [Linux design](docs/02-linux-design.md) for the mental model.
+  2. Boot a Linux Mint VM in VirtualBox or fire up WSL 2 using [chapter 4](docs/04-running-linux.md).
+  3. Jump to [workstation setup](docs/05-dev-workstation.md) inside your VM, then install [language toolchains](docs/06-languages.md).
+
+- **Track B (The Real Deal — Dedicated or Used Laptop):**
+  1. Read [chapter 7: Used laptops](docs/07-used-laptops.md) before heading to eBay, Craigslist, or pulling an old machine out of your closet.
+  2. Create a live USB and install **Linux Mint Cinnamon** ([chapter 3](docs/03-linux-distributions.md) & [chapter 5.1](docs/05-dev-workstation.md)).
+  3. Continue with [workstation setup](docs/05-dev-workstation.md) and [toolchains](docs/06-languages.md).
+
+Alongside either track, work through [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) whenever you open a terminal.
 
 ## What you will have at the end
 
