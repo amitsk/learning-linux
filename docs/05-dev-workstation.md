@@ -1,20 +1,23 @@
-# 5. Setting up a development workstation
+# 5a. Setting up a development workstation
 
-[← Running Linux: VMs and containers](04-running-linux.md) · [Home](../README.md) · [Languages →](06-languages.md)
+[← Running Linux: VMs and containers](04-running-linux.md) · [Home](../README.md) · [Omarchy workstation →](05b-omarchy.md)
 
 This is the "make the computer useful" chapter. The reference desktop is **Linux Mint Cinnamon edition**. Commands are Debian/Ubuntu-shaped, so they also work on Ubuntu with small naming differences. Fedora notes sit at the end of each major step.
+
+If you would rather run a keyboard-first Arch desktop, that path is [chapter 5b: Omarchy](05b-omarchy.md). This chapter is the start-menu-and-mouse path. Most of the *ideas* transfer; the keybindings do not.
 
 You will:
 
 1. Install Mint from official docs
 2. Update the system and learn `apt`
-3. Install basic tools
+3. Install basic tools, including Git and the GitHub CLI
 4. Enable an SSH server
 5. Turn on UFW
 6. Add users and groups
 7. Stand up PostgreSQL from scratch
 8. Install (or at least bookmark) a real editor and AI coding CLIs
-9. Then install compilers and languages in [section 6](06-languages.md)
+9. Pick database and REST clients, plus `jq` / `yq`
+10. Then install compilers and languages in [section 6](06-languages.md)
 
 You can follow this chapter on hardware or inside the [VM from chapter 4](04-running-linux.md). If Mint is already installed in your VM, start at first boot below. Containers do not provide the full desktop and service environment assumed here.
 
@@ -41,10 +44,19 @@ Practical notes that the installer will not put on a motivational poster:
 
 ### Same job, other distros
 
-- Ubuntu GNOME: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop)
-- Ubuntu with XFCE / Budgie: [Ubuntu flavors](https://ubuntu.com/desktop/flavours) → [Xubuntu](https://xubuntu.org/), [Ubuntu Budgie](https://ubuntubudgie.org/)
+The rest of this chapter is written against Mint Cinnamon, but the job is "a Debian-family desktop with a start menu and a mouse." Two Ubuntu flavors are excellent *light* alternatives if Mint feels heavy, the laptop is tired, or you simply like their look:
+
+- **[Xubuntu](https://xubuntu.org/)** — Ubuntu with [XFCE](https://www.xfce.org/). Traditional panel, application menu, click-to-launch. Kind to old laptops; see [chapter 7](07-used-laptops.md).
+- **[Ubuntu Budgie](https://ubuntubudgie.org/)** — Ubuntu with [Budgie](https://buddiesofbudgie.org/). Same menu-and-mouse grammar as Mint, a bit more polish, still lighter than GNOME.
+
+Both keep the navigation paradigm this chapter assumes: a menu, windows you drag, settings you click. You will not need a tiling-window-manager cheat sheet. And because they are Ubuntu under the hood, **most of the material in this chapter works with minimal modifications** — `apt`, OpenSSH, UFW, `adduser`, PostgreSQL packages, VS Code's `.deb` repo. The menu labels differ; the commands do not. Install from their docs, then start at [first boot](#52-first-boot-become-a-boring-up-to-date-machine).
+
+Other options, if a course or curiosity demands them:
+
+- Ubuntu GNOME: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) · all [Ubuntu flavors](https://ubuntu.com/desktop/flavours)
 - Fedora Workstation (GNOME): [Download](https://fedoraproject.org/workstation/download) · [Getting started / install](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/)
 - Fedora other desktops: [Fedora Spins](https://fedoraproject.org/spins/)
+- Keyboard-first Arch desktop: [chapter 5b, Omarchy](05b-omarchy.md)
 
 ## 5.2 First boot: become a boring, up-to-date machine
 
@@ -133,6 +145,21 @@ git --version
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 ```
+
+### Git, and the GitHub CLI
+
+`git` is the version control system. It tracks commits on your machine. [GitHub CLI](https://cli.github.com/) (`gh`) is how you talk to GitHub from that same terminal: clone private repos, open pull requests, inspect Actions, comment on issues. Official manual: [GitHub CLI](https://cli.github.com/manual/).
+
+Install `gh` from GitHub's Debian/Ubuntu instructions rather than from memory: [Installing gh on Linux](https://github.com/cli/cli/blob/trunk/docs/install_linux.md). Then:
+
+```bash
+gh auth login
+gh --version
+```
+
+Why this is worth a slot on a student workstation, especially once coding agents show up in [section 5.9](#59-developer-tools-editors-and-coding-agents): LLM harnesses are much better at `gh` than at clicking around github.com. The CLI has stable flags, `--json` output, and non-interactive commands (`gh pr create`, `gh issue list`, `gh run view`). Agents already know this tool; GitHub even ships [an agent skill for it](https://github.com/cli/cli#agent-skills). A GUI git client is fine for *you*. `gh` is what you install so the agent can file the PR without inventing a browser automation hobby.
+
+`git` still does the actual commits. `gh` is GitHub's front door.
 
 ### Terminals
 
@@ -390,7 +417,82 @@ Read the script or use the vendor's package when you can. "Curl to bash" is conv
 
 The learning-shell [text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) chapter also mentions Vim/Emacs keybindings inside Codex and Grok Build. Once you can exit Vim, you can survive an agent that opens it.
 
-## 5.10 Staying updated without superstition
+## 5.10 Database clients
+
+You just stood up a PostgreSQL *server*. You also need something to *talk* to it. `psql` came with the packages in [section 5.8](#58-postgresql-from-scratch) and is enough for coursework. The tools below are the ones you will meet in internships, so bookmark them even if you install only one.
+
+GUI:
+
+- **[DBeaver](https://dbeaver.io/)** — the Swiss Army knife. Postgres, MySQL, SQLite, and a long list of things you will not need this semester. Community Edition is free. [Download / Linux](https://dbeaver.io/download/). On Mint, Flatpak from Software Manager is the low-drama option.
+
+Terminal clients, one database each (or all of them):
+
+- **[pgcli](https://www.pgcli.com/)** — Postgres with autocomplete and pretty tables. [GitHub: dbcli/pgcli](https://github.com/dbcli/pgcli)
+- **[mycli](https://www.mycli.net/)** — the same idea for MySQL / MariaDB. [GitHub: dbcli/mycli](https://github.com/dbcli/mycli)
+- **[usql](https://github.com/xo/usql)** — one `psql`-shaped CLI that speaks to most SQL databases. Handy when the homework is Postgres and the internship is "whatever is in `DATABASE_URL`."
+
+A utility, not a client:
+
+- **[sq](https://sq.io/)** — jq-style queries against databases *and* files (CSV, Excel, JSON). You do not "open a connection and browse tables" with it; you wrangle data on the command line. See the [overview](https://sq.io/docs/overview/) and [install](https://sq.io/docs/install/) pages. Reach for `sq` when the question is "dump this join as JSON," not "let me click around the schema."
+
+Install what you will actually use. A GUI, a CLI, and `psql` is plenty. Official docs beat a copied `apt install` line that went stale last Tuesday.
+
+## 5.11 REST clients
+
+Web APIs are homework now. You want a GUI for exploring, and a CLI for scripts and agents.
+
+### GUIs
+
+- **[Insomnia](https://insomnia.rest/)** — focused REST/GraphQL client. [Docs](https://developer.konghq.com/insomnia/)
+- **[Postman](https://www.postman.com/)** — the one every internship onboarding doc still names. [Docs](https://learning.postman.com/docs/introduction/overview/)
+- **[Bruno](https://www.usebruno.com/)** — collections live in your git repo as files, which is the whole pitch. [Docs](https://docs.usebruno.com/)
+
+Pick one GUI. Installing all three is how you get three slightly different notions of an environment variable.
+
+### The CLI you already have: curl
+
+[curl](https://curl.se/) is already on the machine from [section 5.4](#54-basic-tools-and-utilities). It is the HTTP client everything else pretends to be when the GUI is closed.
+
+Do not memorize flags from a gist. Work through:
+
+- [HTTP scripting with curl](https://curl.se/docs/httpscripting.html) — the practical tutorial
+- [Everything curl](https://everything.curl.dev/) — the book, including the [HTTP](https://everything.curl.dev/http) chapters
+- Companion shell homework: [learning-shell](https://github.com/amitsk/learning-shell) (HTTP tools show up once you have a prompt)
+
+```bash
+curl -I https://example.com
+curl -s https://httpbin.org/get | head
+```
+
+`-I` is headers only. `-s` is "stop narrating the download." That is enough to confirm the network works; the tutorials above teach POST, auth, and "why is this a 415."
+
+### Friendlier CLIs
+
+- **[HTTPie](https://httpie.io/)** — `http GET example.com/json` instead of a flag salad. [CLI docs](https://httpie.io/docs/cli)
+- **[xh](https://github.com/ducaale/xh)** — a Rust reimplementation of HTTPie. Same shape, faster startup, single binary. If HTTPie is the friendly syntax, `xh` is that syntax when you do not want a Python runtime along for the ride.
+
+Agents and CI jobs will still emit `curl`. Learn `curl`; use HTTPie or `xh` when you are typing.
+
+## 5.12 jq and yq
+
+APIs return JSON. Kubernetes, Compose, and half of GitHub Actions speak YAML. These two command-line tools are how you stop eyeballing a 4,000-line blob.
+
+- **[jq](https://jqlang.org/)** — the JSON processor. Filter, map, extract. Start at the [tutorial](https://jqlang.org/tutorial/) and keep the [manual](https://jqlang.org/manual/) nearby. On Mint: `sudo apt install jq`.
+- **[yq](https://mikefarah.gitbook.io/yq/)** — jq-like syntax for YAML (and JSON, XML, and friends). This is [mikefarah/yq](https://github.com/mikefarah/yq), the Go binary people usually mean. There is a different Python project also named `yq`; if a command fails in a confusing way, you have the other one.
+
+```bash
+# headers from a JSON API response
+curl -s https://httpbin.org/get | jq '.headers'
+
+# a value out of a YAML file
+yq '.name' some-compose.yaml
+```
+
+You do not need to become a jq golfer. You need `.foo.bar`, `.[0]`, and the humility to test a filter on a saved file before piping production data through it. Pair with [section 5.11](#511-rest-clients): `curl` fetches, `jq` picks.
+
+**Fedora:** `sudo dnf install jq`. For `yq`, follow [mikefarah's install docs](https://mikefarah.gitbook.io/yq/#install) rather than assuming the distro package is the same binary.
+
+## 5.13 Staying updated without superstition
 
 Software updates are how you receive security fixes. They are not optional extra credit.
 
@@ -424,7 +526,7 @@ Mint tracks Ubuntu LTS. Stay on the supported release; in-place upgrades have an
 
 **Fedora:** `sudo dnf upgrade --refresh`. Fedora's cadence is faster; that is the point of Fedora.
 
-## 5.11 A reasonable "done" checklist
+## 5.14 A reasonable "done" checklist
 
 ```bash
 # OS and packages
@@ -444,12 +546,14 @@ psql -h 127.0.0.1 -U devuser -d homework -c 'SELECT 1'
 
 # Tools
 git --version
+gh --version            # if you installed GitHub CLI
+jq --version            # if you installed jq
 code --version          # if you installed VS Code
 ```
 
 If those succeed, you have a workstation. Everything else is customization.
 
-## 5.12 Extra, still useful
+## 5.15 Extra, still useful
 
 - **Languages and compilers:** do not stop at distro `python3`. Use [section 6](06-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
@@ -458,14 +562,16 @@ If those succeed, you have a workstation. Everything else is customization.
 
 ### Other distros, same workstation idea
 
-| Topic | Ubuntu | Fedora |
-| --- | --- | --- |
-| Install OS | [Ubuntu desktop tutorial](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/) |
-| Packages | [APT](https://ubuntu.com/server/docs/how-to/software/package-management/) | [DNF](https://docs.fedoraproject.org/en-US/quick-docs/dnf/) |
-| SSH | [OpenSSH](https://ubuntu.com/server/docs/how-to/security/openssh-server/) | `openssh-server` + `sshd.service` |
-| Firewall | [UFW](https://help.ubuntu.com/community/UFW) | [firewalld](https://docs.fedoraproject.org/en-US/quick-docs/firewalld/) |
-| PostgreSQL | [apt packages](https://www.postgresql.org/download/linux/ubuntu/) | [postgresql-setup](https://docs.fedoraproject.org/en-US/quick-docs/postgresql/) |
+[Xubuntu](https://xubuntu.org/) and [Ubuntu Budgie](https://ubuntubudgie.org/) are the closest substitutes for Mint in this chapter: Ubuntu packages, a menu, a mouse, no new religion. Walk through the sections as written. GNOME Ubuntu works too; a few settings live in different panels. Fedora works if you swap `apt` for `dnf` using the notes above. Omarchy is a different *kind* of desktop — see [chapter 5b](05b-omarchy.md).
+
+| Topic | Xubuntu / Ubuntu Budgie / Ubuntu | Fedora | Omarchy |
+| --- | --- | --- | --- |
+| Install OS | [Xubuntu](https://xubuntu.org/) · [Ubuntu Budgie](https://ubuntubudgie.org/) · [Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/) | [Omarchy getting started](https://omarchy.org/manual/getting-started/) |
+| Packages | [APT](https://ubuntu.com/server/docs/how-to/software/package-management/) | [DNF](https://docs.fedoraproject.org/en-US/quick-docs/dnf/) | [pacman](https://wiki.archlinux.org/title/Pacman) via [Omarchy packages](https://omarchy.org/manual/other-packages/) |
+| SSH | [OpenSSH](https://ubuntu.com/server/docs/how-to/security/openssh-server/) | `openssh-server` + `sshd.service` | [Omarchy security](https://omarchy.org/manual/security/) (*Setup → Security → SSHD*) |
+| Firewall | [UFW](https://help.ubuntu.com/community/UFW) | [firewalld](https://docs.fedoraproject.org/en-US/quick-docs/firewalld/) | UFW, already on; [security](https://omarchy.org/manual/security/) |
+| PostgreSQL | [apt packages](https://www.postgresql.org/download/linux/ubuntu/) | [postgresql-setup](https://docs.fedoraproject.org/en-US/quick-docs/postgresql/) | clients in [5b](05b-omarchy.md); optional Docker DBs from the Omarchy menu |
 
 ---
 
-**Next:** [Languages and toolchains →](06-languages.md)
+**Next:** [5b. Omarchy workstation →](05b-omarchy.md)

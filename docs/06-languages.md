@@ -1,8 +1,8 @@
 # 6. Languages and toolchains
 
-[← Development workstation](05-dev-workstation.md) · [Home](../README.md) · [Used laptops →](07-used-laptops.md)
+[← Omarchy workstation](05b-omarchy.md) · [Home](../README.md) · [Used laptops →](07-used-laptops.md)
 
-Section 5 got you a desktop, `apt`, SSH, and an editor. This chapter is the part where the machine starts compiling homework.
+Section 5a got you a Mint desktop, `apt`, SSH, and an editor. Section 5b did the same job on Omarchy with `pacman` and a tiling window manager. This chapter is the part where the machine starts compiling homework.
 
 You do **not** need every language on day one. Install what this semester actually uses. The trap is mixing three version managers, a random PPA, and `sudo pip` until `python` is a haunted house.
 
