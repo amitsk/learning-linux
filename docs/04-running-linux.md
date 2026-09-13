@@ -29,13 +29,13 @@ Your existing OS is the **host**; Linux inside the VM is the **guest**. The VM's
 
 The [VirtualBox first-steps guide](https://docs.oracle.com/en/virtualization/virtualbox/7.1/user/Introduction.html) covers the wizard and snapshots. [Working with VMs](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/working-with-vms.html) covers virtual disks and networking. Guest Additions can improve resizing and desktop integration; follow the instructions for your VirtualBox version if needed.
 
-Then continue with [chapter 5's first-boot steps](05-dev-workstation.md#52-first-boot-become-a-boring-up-to-date-machine) **inside the guest**. With NAT, another computer usually cannot connect directly to the guest's private address. For the later SSH exercise, add a VirtualBox NAT forwarding rule from host address `127.0.0.1`, host port `2222`, to guest port `22`, then connect from the host:
+Then continue with [chapter 5a's first-boot steps](05-dev-workstation.md#52-first-boot-become-a-boring-up-to-date-machine) **inside the guest**. An Omarchy ISO is the same idea with a different installer; first boot for that path is [chapter 5b](05b-omarchy.md#5b2-first-boot-learn-super-then-become-boring). With NAT, another computer usually cannot connect directly to the guest's private address. For the later SSH exercise, add a VirtualBox NAT forwarding rule from host address `127.0.0.1`, host port `2222`, to guest port `22`, then connect from the host:
 
 ```bash
 ssh -p 2222 youruser@127.0.0.1
 ```
 
-Enable the guest's SSH service and firewall allowance first, as chapter 5 describes. Binding the forwarding rule to localhost makes this a host-to-guest exercise.
+Enable the guest's SSH service and firewall allowance first, as [chapter 5a](05-dev-workstation.md#55-ssh-server-so-the-machine-can-be-a-machine) (or [5b](05b-omarchy.md#5b5-ssh-server-off-until-you-ask)) describes. Binding the forwarding rule to localhost makes this a host-to-guest exercise.
 
 ## Other VM tools and WSL
 
@@ -92,4 +92,4 @@ You do not need a cloud account for this chapter's exercises. Local practice giv
 
 ---
 
-**Next:** [Setting up a development workstation →](05-dev-workstation.md)
+**Next:** [5a. Setting up a development workstation →](05-dev-workstation.md)

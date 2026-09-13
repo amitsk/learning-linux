@@ -10,7 +10,7 @@ You only need to *install* one. You should *recognize* these three, because they
 
 ### Linux Mint — the recommended first desktop
 
-[Linux Mint](https://linuxmint.com/) is Ubuntu-based, ships a familiar desktop, and does not try to reinvent the taskbar every six months. **Cinnamon edition** is the one this tutorial installs in [section 5](05-dev-workstation.md).
+[Linux Mint](https://linuxmint.com/) is Ubuntu-based, ships a familiar desktop, and does not try to reinvent the taskbar every six months. **Cinnamon edition** is the one this tutorial installs in [section 5a](05-dev-workstation.md).
 
 - Downloads: [linuxmint.com/download.php](https://linuxmint.com/download.php)
 - Installer: [Linux Mint Installation Guide](https://linuxmint-installation-guide.readthedocs.io/en/latest/)
@@ -85,7 +85,7 @@ flowchart TB
 
 ### Cinnamon (this tutorial's default)
 
-[Cinnamon](https://github.com/linuxmint/cinnamon) is Mint's flagship: start menu, system tray, workspaces, a layout Windows/macOS refugees recognize in under a minute. That is why [section 5](05-dev-workstation.md) uses **Linux Mint Cinnamon edition**.
+[Cinnamon](https://github.com/linuxmint/cinnamon) is Mint's flagship: start menu, system tray, workspaces, a layout Windows/macOS refugees recognize in under a minute. That is why [section 5a](05-dev-workstation.md) uses **Linux Mint Cinnamon edition**.
 
 You can install other DEs later with the package manager. Do not do that on day one. Get one desktop working, then customize.
 
@@ -111,7 +111,7 @@ Use Budgie if you want something prettier than XFCE and less "GNOME overview" th
 
 Software on Linux does not start with a random installer `.exe`. You ask the distro's **package manager** for a package, it pulls a signed build, and updates flow through the same pipe.
 
-- Mint / Ubuntu: **APT** — `apt update`, `apt install`, `apt upgrade`. Full walkthrough in [section 5](05-dev-workstation.md).
+- Mint / Ubuntu: **APT** — `apt update`, `apt install`, `apt upgrade`. Full walkthrough in [section 5a](05-dev-workstation.md).
 - Fedora: **DNF** — `dnf install`, `dnf upgrade`. Docs: [DNF on Fedora](https://docs.fedoraproject.org/en-US/quick-docs/dnf/).
 
 There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and language-level tools (`uv`, `cargo`, `npm`). Distro packages first; random scripts from blogs later, and only after you read them.
@@ -142,9 +142,9 @@ You do not install these on your laptop. But when your future employer asks you 
 
 ## Curiosity for later: Omarchy
 
-[Omarchy](https://omarchy.org/manual/) is an opinionated, Arch-based Linux distribution that assembles a complete developer desktop around the Hyprland tiling window manager. “Omakase” means accepting the chef's pre-selected tools, keybindings, and aesthetic.
+[Omarchy](https://omarchy.org/) is an opinionated, Arch-based Linux distribution that assembles a complete developer desktop around the [Hyprland](https://hypr.land/) tiling window manager. “Omakase” means accepting the chef's pre-selected tools, keybindings, and aesthetic. The current ISO line is **Quattro** (Omarchy 4).
 
-It looks gorgeous in r/unixporn screenshots, but debugging a tiling window manager config when you have a CS project due at midnight is a special circle of grief. Keep Omarchy bookmarked for winter break; start your semester with Mint.
+It looks gorgeous in r/unixporn screenshots, but a tiling window manager is a different navigation paradigm than Mint's menu and mouse. Start the semester with Mint ([chapter 5a](05-dev-workstation.md)). When you want the keyboard-first path, [chapter 5b](05b-omarchy.md) is the workstation overlay; the [Omarchy Manual](https://omarchy.org/manual/) is the deep dive.
 
 ---
 

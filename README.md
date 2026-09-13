@@ -4,7 +4,7 @@ A practical tutorial for **new programmers** and **CS students** who want a real
 
 Linux powers cloud servers, Android devices, embedded systems, supercomputers, and developer desktops. You do not need to memorize man pages before breakfast. You do need a machine you can break, fix, and program on.
 
-This guide walks you from "what even is a distro?" to a Linux Mint Cinnamon box with SSH, a firewall, extra users, PostgreSQL, language toolchains, and a sensible set of developer tools.
+This guide walks you from "what even is a distro?" to a Linux Mint Cinnamon box with SSH, a firewall, extra users, PostgreSQL, language toolchains, and a sensible set of developer tools. An optional second workstation chapter covers Omarchy, the keyboard-first Arch desktop.
 
 **Companion tutorial:** the command line is a skill, not a personality. Work through [amitsk/learning-shell](https://github.com/amitsk/learning-shell) alongside this guide. Whenever this tutorial says "open a terminal," that repo is the homework.
 
@@ -26,7 +26,8 @@ Read the sections in order the first time. After that, treat them as a map:
 | [2. How Linux is put together](docs/02-linux-design.md) | The kernel vs the distro, userspace tooling, and diagrams of the stack |
 | [3. Choosing a Linux distribution](docs/03-linux-distributions.md) | Debian, Ubuntu, Mint, Fedora, desktop choices, cloud-provider distros, and Omarchy |
 | [4. Running Linux: virtual machines and containers](docs/04-running-linux.md) | VirtualBox and alternatives, WSL, Docker, and cloud container services |
-| [5. Development workstation](docs/05-dev-workstation.md) | Linux Mint Cinnamon install, `apt`, updates, SSH, UFW, users/groups, PostgreSQL, editors and AI coding tools |
+| [5a. Development workstation](docs/05-dev-workstation.md) | Linux Mint Cinnamon install, `apt`, updates, SSH, UFW, users/groups, PostgreSQL, GitHub CLI, editors, DB/REST clients |
+| [5b. Omarchy workstation](docs/05b-omarchy.md) | Omarchy Quattro: Arch, Hyprland, keyboard-first setup, same client tools, no Postgres server |
 | [6. Languages and toolchains](docs/06-languages.md) | mise for Java/Python/Node/Go, uv, Cargo, Volta/nvm, GCC and Clang, VS Code extensions |
 | [7. Used laptops and Linux resurrection](docs/07-used-laptops.md) | Buying second-hand hardware and bringing an old laptop back from the dead |
 
@@ -39,20 +40,20 @@ Pick your track based on the machine in front of you:
 - **Track A (Fastest & Zero Risk — Existing Windows or Mac):**
   1. Read [basics](docs/01-linux-basics.md) and skim [Linux design](docs/02-linux-design.md) for the mental model.
   2. Boot a Linux Mint VM in VirtualBox or fire up WSL 2 using [chapter 4](docs/04-running-linux.md).
-  3. Jump to [workstation setup](docs/05-dev-workstation.md) inside your VM, then install [language toolchains](docs/06-languages.md).
+  3. Jump to [workstation setup](docs/05-dev-workstation.md) inside your VM, then install [language toolchains](docs/06-languages.md). (Omarchy is [chapter 5b](docs/05b-omarchy.md), after you know what a normal desktop feels like.)
 
 - **Track B (The Real Deal — Dedicated or Used Laptop):**
   1. Read [chapter 7: Used laptops](docs/07-used-laptops.md) before heading to eBay, Craigslist, or pulling an old machine out of your closet.
-  2. Create a live USB and install **Linux Mint Cinnamon** ([chapter 3](docs/03-linux-distributions.md) & [chapter 5.1](docs/05-dev-workstation.md)).
-  3. Continue with [workstation setup](docs/05-dev-workstation.md) and [toolchains](docs/06-languages.md).
+  2. Create a live USB and install **Linux Mint Cinnamon** ([chapter 3](docs/03-linux-distributions.md) & [chapter 5a.1](docs/05-dev-workstation.md)).
+  3. Continue with [workstation setup](docs/05-dev-workstation.md) and [toolchains](docs/06-languages.md). Omarchy fans: [chapter 5b](docs/05b-omarchy.md) is the keyboard-first variant, not the first-weekend default.
 
 Alongside either track, work through [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) whenever you open a terminal.
 
 ## What you will have at the end
 
-- A Linux desktop with Cinnamon, updates, and basic CLI tools
+- A Linux desktop with Cinnamon, updates, and basic CLI tools (or Omarchy, if you took chapter 5b)
 - An SSH server behind UFW, with extra users and groups for practice
-- A local PostgreSQL server you created yourself
+- A local PostgreSQL server you created yourself (Mint path) plus DB/REST clients (`gh`, DBeaver/pgcli, curl/HTTPie, jq)
 - Links to VS Code, IntelliJ IDEA, Codex, Grok Build, and Claude Code
 - Compilers (GCC/Clang) and runtimes via mise (Java, Python, Node, Go), plus uv and Cargo
 - Enough mental model of Linux to not panic when a CS assignment says "use the terminal"
