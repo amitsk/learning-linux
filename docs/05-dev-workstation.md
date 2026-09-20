@@ -10,7 +10,7 @@ You will:
 
 1. Install Mint from official docs
 2. Update the system and learn `apt`
-3. Install basic tools, including Git and the GitHub CLI
+3. Install basic tools, Git/gh, coding fonts, and modern prompts
 4. Enable an SSH server
 5. Turn on UFW
 6. Add users and groups
@@ -167,9 +167,182 @@ The Cinnamon default (Menu → Terminal, or `Ctrl+Alt+T`) is GNOME Terminal. It 
 
 If you want a faster or more modern emulator, the usual alternatives are [Ghostty](https://ghostty.org/), [Kitty](https://sw.kovidgoyal.net/kitty/), [Alacritty](https://alacritty.org/), and [WezTerm](https://wezfurlong.org/wezterm/). This author uses and recommends **Ghostty** when the machine can support it — it is GPU-accelerated and wants a reasonably recent OpenGL stack. If Ghostty will not launch, keep the default, especially on older laptops ([section 7](07-used-laptops.md)).
 
-Optional but pleasant:
+### Coding fonts: Nerd Fonts (banishing the tofu)
 
-- [starship.rs](https://starship.rs/) — prompt. Also mentioned in [learning-shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md)
+Your default terminal font renders letters and numbers just fine. But the moment a modern prompt or editor tries to display a Git branch icon (``), a Python snake, a folder glyph, or a Docker whale, standard fonts surrender and show a hollow rectangle (`□`) or a question mark inside a diamond (``). In terminal typography, this is affectionately known as **tofu**—and staring at a terminal full of tofu makes reading your status line feel like deciphering alien hieroglyphs.
+
+Enter **[Nerd Fonts](https://www.nerdfonts.com/)**. The Nerd Fonts project takes beloved open-source monospaced fonts and patches them with thousands of developer glyphs and symbols from Font Awesome, Devicons, Octicons, and Powerline.
+
+#### Recommended fonts
+
+Pick one. Installing fifteen fonts does not make your code compile faster.
+
+| Font | Vibe | Download link |
+| --- | --- | --- |
+| **JetBrains Mono Nerd Font** | Modern, clean, generous x-height, engineered for readability | [JetBrainsMono.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz) |
+| **Fira Code Nerd Font** | The classic developer darling with programming ligatures (`!=`, `->`) | [FiraCode.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz) |
+| **Meslo LGS NF** | The battle-tested default recommended by many prompt themes | [Meslo.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.tar.xz) |
+| **Hack Nerd Font** | Geometric, crisp, workhorse monospace with no surprises | [Hack.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz) |
+
+#### How to install (any Linux distro)
+
+You don't need root, a PPA, or a package manager to install fonts on Linux. Fontconfig automatically looks in `~/.local/share/fonts` for user-installed fonts:
+
+```bash
+# 1. Create your user fonts directory
+mkdir -p ~/.local/share/fonts
+
+# 2. Download and extract your chosen font (e.g. JetBrains Mono)
+cd ~/.local/share/fonts
+curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
+tar -xf JetBrainsMono.tar.xz
+rm JetBrainsMono.tar.xz
+
+# 3. Refresh the font cache so the system discovers it
+fc-cache -fv
+```
+
+Verify that the system registered your new font:
+
+```bash
+fc-list : family | grep -i "JetBrainsMono Nerd Font" | head -n 3
+```
+
+#### Actually tell your terminal to use it
+
+Downloading a font does not automatically configure your terminal. Linux respects your autonomy, even when you make questionable aesthetic choices.
+
+- **GNOME Terminal (Mint default):**
+  1. Open the terminal, go to **Edit** → **Preferences** (or right-click anywhere in the terminal → **Preferences**).
+  2. Under **Profiles** in the sidebar, click your active profile (usually "Unnamed").
+  3. In the **Text** tab, check the box for **Custom font**.
+  4. Click the font selector button, search for `JetBrainsMono Nerd Font` (or `FiraCode Nerd Font Mono`), set the size to 11 or 12, and click **Select**.
+- **Ghostty:**
+  Add this to `~/.config/ghostty/config`:
+  ```ini
+  font-family = "JetBrainsMono Nerd Font"
+  ```
+- **Kitty / Alacritty:** Set `font_family JetBrainsMono Nerd Font` in `~/.config/kitty/kitty.conf` or `font.normal.family: "JetBrainsMono Nerd Font"` in `~/.config/alacritty/alacritty.toml`.
+
+Restart the terminal or open a fresh tab. Congratulations, you are officially immune to the tofu epidemic.
+
+### Prompt customization: Starship and Oh My Posh
+
+The default Bash prompt looks like this:
+
+```text
+user@workstation:~/projects/homework$ 
+```
+
+It is functional. It is also the terminal equivalent of plain unbuttered toast. It tells you who you are (which you hopefully remember), where you are, and nothing else. It will not tell you:
+
+- What Git branch you are on,
+- Whether you have 17 unstaged files about to be wiped out by an accidental `git checkout`,
+- What Python virtualenv, Node version, or Rust toolchain is currently active,
+- Or that the last command you ran silently exited with code 137 because the kernel OOM killer murdered it.
+
+Modern prompt engines turn your prompt into an informative heads-up display. The two heavyweight contenders are **Starship** and **Oh My Posh**.
+
+> [!WARNING]
+> **Pick ONE prompt engine.** Adding both `eval "$(starship init bash)"` and `eval "$(oh-my-posh init bash ...)"` to your `~/.bashrc` will cause them to duel for standard output on every single keystroke. It looks like a glitch art festival and will drive you mad.
+
+#### Option A: Starship (fast, clean, Rust-powered)
+
+[Starship](https://starship.rs/) is minimal, blazing fast, and cross-shell (Bash, Zsh, Fish). Its design philosophy is simple: show information only when it is actually relevant. In a Git repo? It shows branch and dirty status. In a Python project? It shows the Python version. On an empty directory? It stays completely out of your way.
+
+**1. Install Starship:**
+
+```bash
+curl -sS https://starship.rs/install.sh | sh
+```
+
+*(The official script will ask for sudo only if installing to `/usr/local/bin`; otherwise you can install to `~/.local/bin` without root.)*
+
+**2. Activate in Bash:**
+
+Add the initialization hook to the end of your `~/.bashrc`:
+
+```bash
+echo 'eval "$(starship init bash)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Instant gratification: your prompt now shows directory context, Git status, language runtimes, and execution duration.
+
+**3. Customize Starship (optional):**
+
+Starship configuration lives in `~/.config/starship.toml`. If you installed a Nerd Font earlier, enable Starship's rich symbols preset:
+
+```bash
+starship preset nerd-font-symbols -o ~/.config/starship.toml
+```
+
+Or write your own minimal tweaks (`~/.config/starship.toml`):
+
+```toml
+# Don't print a blank line before every prompt
+add_newline = false
+
+# Show execution time for commands that take longer than 2 seconds
+[cmd_duration]
+min_time = 2_000
+format = "took [$duration]($style) "
+
+# Custom prompt character
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
+```
+
+See the [Starship configuration guide](https://starship.rs/guide/) and [presets](https://starship.rs/presets/) for deeper tweaking.
+
+**Fedora:** `sudo dnf copr enable atim/starship && sudo dnf install starship` or use the official curl script.
+
+#### Option B: Oh My Posh (vibrant, thematic, Powerline aesthetic)
+
+[Oh My Posh](https://ohmyposh.dev/) originated in the PowerShell world but has evolved into a full-blown, Go-powered cross-shell prompt engine. If you want colorful "powerline" pill segments, distinct color-coded blocks, and an endless closet of designer themes, Oh My Posh is your vehicle.
+
+**1. Install Oh My Posh:**
+
+```bash
+curl -s https://ohmyposh.dev/install.sh | bash -s
+```
+
+The script drops the binary into `~/.local/bin` and clones 80+ official themes into `~/.cache/oh-my-posh/themes`. Make sure `~/.local/bin` is in your `PATH` (on Mint/Ubuntu, standard `.bashrc` includes it if the directory exists; run `export PATH=$PATH:$HOME/.local/bin` if it's missing in your current session).
+
+**2. Activate in Bash with a theme:**
+
+Add the init command to `~/.bashrc`, pointing to your theme of choice:
+
+```bash
+echo 'eval "$(oh-my-posh init bash --config ~/.cache/oh-my-posh/themes/jandedobbeleer.omp.json)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**3. Browse and preview themes:**
+
+Oh My Posh includes a built-in gallery viewer. Run this in your terminal:
+
+```bash
+oh-my-posh get themes
+```
+
+To switch themes, change the config path in `~/.bashrc` to any other theme in `~/.cache/oh-my-posh/themes/` (popular picks include `bubbles.omp.json`, `catppuccin.omp.json`, `half-life.omp.json`, and `atomic.omp.json`), then reload your shell.
+
+#### Starship vs. Oh My Posh: Which should you choose?
+
+| Feature | Starship | Oh My Posh |
+| --- | --- | --- |
+| **Engine** | Rust (single compiled binary) | Go (single compiled binary) |
+| **Aesthetic** | Discreet, minimalist badges; context appears only when needed | Expressive, full-color Powerline pill segments and banners |
+| **Configuration** | Single `~/.config/starship.toml` file | JSON, YAML, or TOML theme configs |
+| **Theme library** | Modular presets via CLI (`starship preset ...`) | 80+ bundled out-of-the-box community themes |
+| **Best for** | Anyone who wants clean speed and zero distraction | Anyone who wants their terminal to look like a sci-fi flight deck |
+
+Both tools work across Bash, Zsh, and Fish, and both look broken without a Nerd Font. Try Starship first if you want something fast that gets out of your way; reach for Oh My Posh if you enjoy colorful segment styling.
+
+### Other terminal polish
+
 - [Helix](https://helix-editor.com/) or [Neovim](https://neovim.io/) if you want a terminal editor with opinions
 - A browser that is not a group project (Firefox is already there)
 
@@ -549,6 +722,10 @@ git --version
 gh --version            # if you installed GitHub CLI
 jq --version            # if you installed jq
 code --version          # if you installed VS Code
+
+# Terminal polish (if installed)
+fc-list : family | grep -i nerd     # did your font actually install?
+starship --version                  # or: oh-my-posh version
 ```
 
 If those succeed, you have a workstation. Everything else is customization.
