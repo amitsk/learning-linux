@@ -10,7 +10,7 @@ You will:
 
 1. Install Mint from official docs
 2. Update the system and learn `apt`
-3. Install basic tools, Git/gh, coding fonts, and modern prompts
+3. Install basic tools, Git/gh, coding fonts, modern prompts, and (optionally) modern CLI utilities
 4. Enable an SSH server
 5. Turn on UFW
 6. Add users and groups
@@ -347,6 +347,36 @@ Both tools work across Bash, Zsh, and Fish, and both look broken without a Nerd 
 - A browser that is not a group project (Firefox is already there)
 
 Editors (GUI and CLI) are compared in [learning-shell: text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md).
+
+### Modern replacements for Unix utilities
+
+The tools in [section 5.4](#54-basic-tools-and-utilities) (`curl`, `git`, `htop`) are the ones that still exist on every server. On this workstation you can also install interactive upgrades: nicer defaults at the prompt, same jobs.
+
+**Use the classics in scripts, Makefiles, Dockerfiles, and agent instructions.** Use the tools below when your eyeballs are looking at the glass. Aliasing `cat` to `bat` in a pipeline is how a CI job hangs waiting for `q`.
+
+```bash
+sudo apt install \
+  bat ripgrep fd-find fzf \
+  eza zoxide git-delta \
+  btop duf tealdeer
+```
+
+Debian/Ubuntu name collisions: the `bat` binary is `batcat`, and `fd-find` installs `fdfind`. Symlinks, `PATH`, and aliases live in the learning-shell chapter linked below. `dust` is not in Ubuntu 24.04 / Mint 22; skip it or install from GitHub releases.
+
+Interactive upgrades (the POSIX tool remains the one you need on a server):
+
+- **`bat`** for viewing files: syntax highlighting, line numbers, git gutters, automatic pager.
+- **`eza`** for listings: color-coded file types, git status in the listing, built-in tree view.
+- **`ripgrep` (`rg`)** for content search: respects `.gitignore`, skips binaries.
+- **`fd`** for filename search: `fd pattern` instead of `find -name`.
+- **`zoxide` (`z`)** for directories you have already visited (`z proj`).
+- **`delta`** for git diffs: side-by-side, word-level highlighting.
+- **`duf`** for disk-free tables. (`dust` for "what ate the disk," when the package exists.)
+
+Aliases, the Debian `batcat`/`fdfind` trap, and when to keep POSIX are in
+**[learning-shell: Modern Replacements for Unix Utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md)**.
+
+**Fedora:** `sudo dnf install bat ripgrep fd-find fzf eza zoxide git-delta btop duf tealdeer dust`
 
 ## 5.5 SSH server: so the machine can be a machine
 
@@ -722,6 +752,8 @@ git --version
 gh --version            # if you installed GitHub CLI
 jq --version            # if you installed jq
 code --version          # if you installed VS Code
+rg --version            # if you installed modern CLI tools
+eza --version
 
 # Terminal polish (if installed)
 fc-list : family | grep -i nerd     # did your font actually install?
@@ -735,7 +767,7 @@ If those succeed, you have a workstation. Everything else is customization.
 - **Languages and compilers:** do not stop at distro `python3`. Use [section 6](06-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
 - **Backups:** Timeshift for the *system*; copy `~/` (projects, `.ssh`, `.gitconfig`) separately. A snapshot of `/` does not replace Git remotes.
-- **Shell fluency:** keep going in [learning-shell](https://github.com/amitsk/learning-shell) — HTTP tools, awk, and Make show up in real build logs.
+- **Shell fluency & modern tools:** keep going in [learning-shell](https://github.com/amitsk/learning-shell) — see [Modern replacements for Unix utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md) for tools like `bat`, `eza`, `ripgrep`, and `zoxide`, plus HTTP tools, awk, and Make in real build logs.
 
 ### Other distros, same workstation idea
 
