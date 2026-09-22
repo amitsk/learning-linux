@@ -148,6 +148,13 @@ Same pitch as [chapter 5a](05-dev-workstation.md#git-and-the-github-cli), only m
 
 Optional, already in the neighborhood: [shell tools](https://omarchy.org/manual/shell-tools/) (fzf, zoxide, ripgrep), [starship](https://starship.rs/) if you want the prompt from the shell tutorial, tmux via `Super + Alt + Return`.
 
+The same interactive tools as the Mint chapter — including `sd` (find-and-replace; preview with `-p` before it rewrites a file) and `delta` (git's pager) — are written up in [learning-shell: modern tools](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md). Do these two pages before you customize the prompt further:
+
+- [Using delta with git](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git)
+- [Aliases for these tools](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools) (and [what an alias is](https://github.com/amitsk/learning-shell/blob/main/scripts/shell_customization.md#aliases))
+
+Arch package names differ (`pacman -S sd git-delta gping`). The behavior in those chapters does not.
+
 ## 5b.5 SSH server: off until you ask
 
 Mint needed `apt install openssh-server`. Omarchy already has OpenSSH; the *service* is off, and the firewall does not expose 22 until you turn SSH on.

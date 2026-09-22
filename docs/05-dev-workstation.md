@@ -352,16 +352,18 @@ Editors (GUI and CLI) are compared in [learning-shell: text editors](https://git
 
 The tools in [section 5.4](#54-basic-tools-and-utilities) (`curl`, `git`, `htop`) are the ones that still exist on every server. On this workstation you can also install interactive upgrades: nicer defaults at the prompt, same jobs.
 
-**Use the classics in scripts, Makefiles, Dockerfiles, and agent instructions.** Use the tools below when your eyeballs are looking at the glass. Aliasing `cat` to `bat` in a pipeline is how a CI job hangs waiting for `q`.
+**Use the classics in scripts, Makefiles, Dockerfiles, and agent instructions.** Use the tools below when your eyeballs are looking at the glass. Aliasing `cat` to `bat` in a pipeline is how a CI job hangs waiting for `q`. Aliasing `sed` to `sd` is how a script rewrites a file it only meant to print.
 
 ```bash
 sudo apt install \
   bat ripgrep fd-find fzf \
-  eza zoxide git-delta \
-  btop duf tealdeer
+  eza zoxide git-delta sd \
+  btop duf tealdeer gping
 ```
 
-Debian/Ubuntu name collisions: the `bat` binary is `batcat`, and `fd-find` installs `fdfind`. Symlinks, `PATH`, and aliases live in the learning-shell chapter linked below. `dust` is not in Ubuntu 24.04 / Mint 22; skip it or install from GitHub releases.
+New to these names? Install the packages, then read [three tools first](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#0-if-you-are-new-install-three-tools) (`fzf`, `rg`, `bat`) before configuring the rest.
+
+Debian/Ubuntu name collisions: the `bat` binary is `batcat`, and `fd-find` installs `fdfind`. Symlinks, `PATH`, and aliases live in the learning-shell chapter linked below. `dust` is not in Ubuntu 24.04 / Mint 22; skip it or install from GitHub releases. `bottom`'s package on Mint is `btm` (command `btm`); `btop` above is enough.
 
 Interactive upgrades (the POSIX tool remains the one you need on a server):
 
@@ -369,14 +371,19 @@ Interactive upgrades (the POSIX tool remains the one you need on a server):
 - **`eza`** for listings: color-coded file types, git status in the listing, built-in tree view.
 - **`ripgrep` (`rg`)** for content search: respects `.gitignore`, skips binaries.
 - **`fd`** for filename search: `fd pattern` instead of `find -name`.
+- **`sd`** for find-and-replace at the keyboard. Preview with `sd -p`. A filename without `-p` rewrites the file. Keep `sed` in scripts. [sd](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#sd-find-and-replace).
 - **`zoxide` (`z`)** for directories you have already visited (`z proj`).
-- **`delta`** for git diffs: side-by-side, word-level highlighting.
+- **`delta`** for git diffs: word-level highlights, `n`/`N` between files, side-by-side when the terminal is wide. Setup is git config, not a shell alias. [Using delta with git](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git).
 - **`duf`** for disk-free tables. (`dust` for "what ate the disk," when the package exists.)
+- **`gping`** when you want `ping` as a live graph.
 
-Aliases, the Debian `batcat`/`fdfind` trap, and when to keep POSIX are in
-**[learning-shell: Modern Replacements for Unix Utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md)**.
+The copy-paste alias block (and the commands you should leave alone: `sed`, `grep`, `find`, `diff`) is
+**[learning-shell: Aliases for these tools](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools)**.
+What an alias *is* — list, remove, bypass with `\ls` — is [Shell customization: Aliases](https://github.com/amitsk/learning-shell/blob/main/scripts/shell_customization.md#aliases).
+The whole chapter:
+**[Modern Replacements for Unix Utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md)**.
 
-**Fedora:** `sudo dnf install bat ripgrep fd-find fzf eza zoxide git-delta btop duf tealdeer dust`
+**Fedora:** `sudo dnf install bat ripgrep fd-find fzf eza zoxide git-delta sd btop duf tealdeer gping dust`
 
 ## 5.5 SSH server: so the machine can be a machine
 
@@ -754,6 +761,8 @@ jq --version            # if you installed jq
 code --version          # if you installed VS Code
 rg --version            # if you installed modern CLI tools
 eza --version
+sd --version
+delta --version
 
 # Terminal polish (if installed)
 fc-list : family | grep -i nerd     # did your font actually install?
@@ -767,7 +776,7 @@ If those succeed, you have a workstation. Everything else is customization.
 - **Languages and compilers:** do not stop at distro `python3`. Use [section 6](06-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
 - **Backups:** Timeshift for the *system*; copy `~/` (projects, `.ssh`, `.gitconfig`) separately. A snapshot of `/` does not replace Git remotes.
-- **Shell fluency & modern tools:** keep going in [learning-shell](https://github.com/amitsk/learning-shell) — see [Modern replacements for Unix utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md) for tools like `bat`, `eza`, `ripgrep`, and `zoxide`, plus HTTP tools, awk, and Make in real build logs.
+- **Shell fluency & modern tools:** keep going in [learning-shell](https://github.com/amitsk/learning-shell). The [new-reader path](https://github.com/amitsk/learning-shell#if-you-are-new) is four short chapters, then stop. [Modern replacements](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md) covers `bat`, `eza`, `ripgrep`, `sd`, and `zoxide`; [delta with git](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git) and the [alias list](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools) are the two sections worth doing the afternoon you install the packages. HTTP tools, awk, and Make wait for a real log or a real build.
 
 ### Other distros, same workstation idea
 

@@ -36,14 +36,15 @@ The **kernel** manages hardware and processes. **User space** contains programs 
 
 The GUI is for living. The shell is for *working*. CS coursework will not accept a screenshot of the file manager as a build log.
 
-Start here, in this order:
+Start here, in this order. The same path is the [“If you are new” list](https://github.com/amitsk/learning-shell#if-you-are-new) on the shell tutorial:
 
-1. [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) — setup, first script, SSH keys
+1. [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) — setup, a first script in `scratch/`, SSH keys
 2. [Text editors on the command line](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) — nano, Vim, and how to exit Vim
-3. [Bash basics](https://github.com/amitsk/learning-shell/blob/main/scripts/basic_shell.md) and [Bash tools](https://github.com/amitsk/learning-shell/blob/main/scripts/tools_bash.md)
-4. [Users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md) — you will use this in [section 5](05-dev-workstation.md)
+3. [Bash basics](https://github.com/amitsk/learning-shell/blob/main/scripts/basic_shell.md) — moving around, pipes, permissions. [Bash scripting](https://github.com/amitsk/learning-shell/blob/main/scripts/tools_bash.md) (variables, loops) can wait until a course asks for a script
+4. [Shell customization](https://github.com/amitsk/learning-shell/blob/main/scripts/shell_customization.md) — aliases and a prompt — then [users and groups](https://github.com/amitsk/learning-shell/blob/main/scripts/users_groups.md), which [section 5](05-dev-workstation.md) uses
+5. When you install the modern CLI tools in [section 5.4](05-dev-workstation.md#modern-replacements-for-unix-utilities), read [delta with git](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git) and the [alias list](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools)
 
-The rest of [learning-shell](https://github.com/amitsk/learning-shell) (sed, awk, HTTP tools, Make) can wait until you have a machine and a prompt.
+sed, awk, HTTP tools, and Make can wait until you have a machine, a prompt, and a file worth processing.
 
 ### Five commands that unlock the rest
 
