@@ -16,6 +16,19 @@ This guide walks you from "what even is a distro?" to a Linux Mint Cinnamon box 
 
 You do **not** need prior Linux experience. Curiosity and a computer that can run a Linux VM will do. A USB stick is useful if you choose a hardware install.
 
+## Which one should you pick?
+
+| If you… | Pick | Why |
+| --- | --- | --- |
+| Want the default, least-surprise first desktop | **Linux Mint Cinnamon** | This tutorial's main path. Menu, mouse, Ubuntu packages |
+| Have an older or tired laptop | **Mint XFCE** or [Xubuntu](https://xubuntu.org/) | Same Debian family, less desktop to carry |
+| Like Ubuntu's ecosystem but not GNOME | [Ubuntu Budgie](https://ubuntubudgie.org/) | Panel-and-menu grammar, a bit more polish than Mint |
+| Want newer packages and a faster cadence | [Fedora Workstation](https://fedoraproject.org/workstation/) | Upstream-first, `dnf`, six-month releases |
+| Want the keyboard to be the interface | [Omarchy](docs/05b-omarchy.md) | Arch + Hyprland, tiling, `Super` does everything |
+| Are not ready to touch your disk | [Mint in a VM](docs/04-running-linux.md) or WSL 2 | Zero risk; same commands, reversible mistakes |
+
+There is no wrong answer here, only a wrong first week. Mint is the one this guide walks through end to end. The others get notes where they differ.
+
 ## How to use this tutorial
 
 Read the sections in order the first time. After that, treat them as a map:

@@ -6,6 +6,8 @@ This is the "make the computer useful" chapter. The reference desktop is **Linux
 
 If you would rather run a keyboard-first Arch desktop, that path is [chapter 5b: Omarchy](05b-omarchy.md). This chapter is the start-menu-and-mouse path. Most of the *ideas* transfer; the keybindings do not.
 
+**Last checked:** October 2026. Package names and vendor install commands move; the concepts do not.
+
 You will:
 
 1. Install Mint from official docs
@@ -38,6 +40,7 @@ Use the official documents. They are maintained; this paragraph is not a substit
 Practical notes that the installer will not put on a motivational poster:
 
 - **Cinnamon** is the edition with the traditional menu and panel. That is the one this tutorial assumes.
+- **Turn on disk encryption.** The installer offers LUKS encryption (and LVM) on the installation-type screen. Tick it on a laptop. You will type one extra passphrase at boot, and a stolen machine becomes a brick instead of a data breach. There is no recovery if you lose that passphrase, so write it down somewhere that is not the laptop.
 - Connect ethernet or Wi-Fi in the live session so you can tick **multimedia codecs** during install.
 - If this machine will *only* run Linux and the disk is empty, "Erase disk and install Linux Mint" is the honest option. Dual boot needs a backup first, not bravery.
 - After reboot, open **Driver Manager** if Wi-Fi or graphics look cursed. NVIDIA laptops in particular.
@@ -73,6 +76,38 @@ sudo -v
 Then follow [Getting started with the Unix shell](https://github.com/amitsk/learning-shell/blob/main/scripts/getting_started.md) until you can create a file with `nano` without googling "how to save."
 
 Mint ships **Timeshift**. After the first successful update, create a snapshot. It is the closest thing Linux has to a save point before a boss fight.
+
+### When the desktop does not start
+
+This will happen eventually. The screen goes black, or you get a login loop, or you edited one file and now Cinnamon is a rumor. Do not reinstall. The machine is still there; you are just talking to the wrong layer.
+
+1. **Get a text console.** Press `Ctrl+Alt+F3` (try F4–F6 if that one is busy). Log in with your normal username and password.
+2. **Look at the display manager.** On Mint it is LightDM:
+
+   ```bash
+   systemctl status display-manager
+   journalctl -b -p err --no-pager | tail -50
+   ```
+
+   `journalctl -b` is this boot. `-p err` keeps the noise down. Read the last few lines; the answer is usually a file path.
+3. **Undo the last thing you changed.** If you edited `/etc/fstab`, a shell profile, or a graphics config, put it back. `sudo nano /etc/fstab` works from the text console. A bad `fstab` line is the classic reason a GUI machine "won't boot."
+4. **Restart the display manager:**
+
+   ```bash
+   sudo systemctl restart lightdm
+   ```
+
+5. **If you cannot find the mistake, roll back.** Timeshift has a command-line mode:
+
+   ```bash
+   sudo timeshift --list
+   sudo timeshift --restore
+   ```
+
+   Pick the snapshot from before the change. This is why you made one.
+6. **Still nothing?** Check that you are not out of disk: `df -h /`. A full root filesystem breaks logging, updates, and the desktop in ways that look unrelated.
+
+The pattern is the same for most Linux problems: get a console, read the log, undo the change. The GUI is a tenant, not the building.
 
 ## 5.3 apt: the grocery store
 
@@ -256,7 +291,7 @@ Modern prompt engines turn your prompt into an informative heads-up display. The
 curl -sS https://starship.rs/install.sh | sh
 ```
 
-*(The official script will ask for sudo only if installing to `/usr/local/bin`; otherwise you can install to `~/.local/bin` without root.)*
+The script is short. Read it before you run it (`curl -sS https://starship.rs/install.sh | less`), then run the line above. *(The official script will ask for sudo only if installing to `/usr/local/bin`; otherwise you can install to `~/.local/bin` without root.)*
 
 **2. Activate in Bash:**
 
@@ -321,13 +356,16 @@ source ~/.bashrc
 
 **3. Browse and preview themes:**
 
-Oh My Posh includes a built-in gallery viewer. Run this in your terminal:
+The installer puts the official themes in `~/.cache/oh-my-posh/themes`. List them, then preview the one you are considering:
 
 ```bash
-oh-my-posh get themes
+ls ~/.cache/oh-my-posh/themes
+oh-my-posh print preview
 ```
 
-To switch themes, change the config path in `~/.bashrc` to any other theme in `~/.cache/oh-my-posh/themes/` (popular picks include `bubbles.omp.json`, `catppuccin.omp.json`, `half-life.omp.json`, and `atomic.omp.json`), then reload your shell.
+`print preview` renders the theme you have configured, so you can see it before committing to a `~/.bashrc` line. To try a different theme, point `--config` at another file in that directory (popular picks include `bubbles.omp.json`, `catppuccin.omp.json`, `half-life.omp.json`, and `atomic.omp.json`), then reload your shell.
+
+If you want a gallery with screenshots instead of filenames, the [theme browser](https://ohmyposh.dev/docs/themes) is the honest way to shop. `oh-my-posh get themes` is not a command; `get` only knows `shell`, `millis`, `accent`, `toggles`, and `width`.
 
 #### Starship vs. Oh My Posh: Which should you choose?
 
@@ -517,7 +555,7 @@ GRANT ALL ON SCHEMA public TO devuser;
 \q
 ```
 
-Pick a real password. "change-me-now" is a sample, not a lifestyle.
+Pick a real password. "change-me-now" is a sample, not a lifestyle. For a password you plan to keep, use `\password devuser` inside `psql` instead of typing it into a `CREATE USER` statement — `\password` asks twice and keeps the value out of your shell and `psql` history.
 
 > **PostgreSQL 15+ Note:** Modern distros ship PostgreSQL 15 or 16. In these releases, default permissions on the `public` schema are tightened for security. Running `\c homework` and `GRANT ALL ON SCHEMA public TO devuser;` ensures your user can create tables without getting hit with a `permission denied for schema public` error.
 
@@ -607,10 +645,10 @@ These are optional. They are also what a lot of students will be asked about in 
 | Tool | What it is | Start here |
 | --- | --- | --- |
 | **Codex** | OpenAI's coding agent / CLI | [Codex product](https://openai.com/codex/) · [Codex CLI docs](https://developers.openai.com/codex/cli/) · [GitHub: openai/codex](https://github.com/openai/codex) |
-| **Grok Build** | xAI / SpaceXAI terminal coding agent | [x.ai/build](https://x.ai/build) · [Grok Build docs](https://docs.x.ai/build/overview) · [GitHub: xai-org/grok-build](https://github.com/xai-org/grok-build) |
+| **Grok Build** | xAI's terminal coding agent | [x.ai/build](https://x.ai/build) · [Grok Build docs](https://docs.x.ai/build/overview) · [GitHub: xai-org/grok-build](https://github.com/xai-org/grok-build) |
 | **Claude Code** | Anthropic's coding agent | [Claude Code](https://claude.com/product/claude-code) · [Overview](https://code.claude.com/docs/en/overview) · [Quickstart](https://code.claude.com/docs/en/quickstart) |
 
-Typical Linux install commands (verify on the official page before you pipe anything to a shell):
+Typical Linux install commands, checked October 2026. Verify on the official page before you pipe anything to a shell — these move:
 
 ```bash
 # Codex CLI — confirm at https://developers.openai.com/codex/cli/
@@ -716,6 +754,17 @@ sudo reboot   # if a new kernel or libc landed and the updater says so
 
 Mint's **Update Manager** is allowed to be your daily driver. It understands kernels, mintupdate levels, and "this reboot is not a suggestion."
 
+### Automatic security updates
+
+Update Manager is how Mint delivers security updates. It nags by default; if you want it to install without asking, turn on automatic updates in its Preferences. On Ubuntu, Xubuntu, or Budgie — or if you prefer the Debian machinery — `unattended-upgrades` does the same job:
+
+```bash
+sudo apt install unattended-upgrades
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
+
+Answer **Yes** to automatic updates. It installs security patches without a dialog. It does not upgrade you to a new distro release, and it does not reboot unless you configure it to. That is the deal.
+
 ### Know what you are running
 
 ```bash
@@ -736,7 +785,28 @@ Mint tracks Ubuntu LTS. Stay on the supported release; in-place upgrades have an
 
 **Fedora:** `sudo dnf upgrade --refresh`. Fedora's cadence is faster; that is the point of Fedora.
 
-## 5.14 A reasonable "done" checklist
+## 5.14 Backups: Timeshift is not a backup
+
+Timeshift snapshots the system so you can undo a bad update. It is not a backup of your work. Snapshots usually live on the same disk, and the default policy excludes `/home`. A dead SSD takes the snapshot and the thing it was protecting.
+
+What you actually need:
+
+- **Code** → a Git remote. `gh repo create` if you have not, and a push you can see in a browser.
+- **`~/.ssh`, `~/.gitconfig`, `~/.config`** → an encrypted copy somewhere else. A password manager's file storage or an encrypted archive is enough.
+- **Coursework, photos, the rest of `~/`** → an external drive or a cloud folder, on a schedule you will actually keep.
+
+A cheap version that beats good intentions:
+
+```bash
+# Weekly, to an external disk mounted at /media/$USER/backup
+rsync -av --delete ~/projects /media/$USER/backup/
+```
+
+`--delete` makes the copy match the source. That is what you want for a mirror and not what you want for an archive, because it also deletes files you removed by accident. Pick one behavior and write it down.
+
+Test a restore before you need one. A backup you have never opened is a hope, not a backup.
+
+## 5.15 A reasonable "done" checklist
 
 ```bash
 # OS and packages
@@ -771,11 +841,11 @@ starship --version                  # or: oh-my-posh version
 
 If those succeed, you have a workstation. Everything else is customization.
 
-## 5.15 Extra, still useful
+## 5.16 Extra, still useful
 
 - **Languages and compilers:** do not stop at distro `python3`. Use [section 6](06-languages.md) — mise for Java/Python/Node/Go, uv, Cargo, GCC and Clang.
 - **Docker:** useful later. Official: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/). Add your user to the `docker` group only after you understand that it is nearly root.
-- **Backups:** Timeshift for the *system*; copy `~/` (projects, `.ssh`, `.gitconfig`) separately. A snapshot of `/` does not replace Git remotes.
+- **Backups:** [section 5.14](#514-backups-timeshift-is-not-a-backup). A snapshot of `/` does not replace Git remotes.
 - **Shell fluency:** the [two-hour path](https://github.com/amitsk/learning-shell#if-you-are-new) in learning-shell is hello.sh, nano, leaving Vim, and four sections of filesystem practice. [Modern tools](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md) is a 15-minute table after that: [delta](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git) and the [alias list](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools). HTTP, awk, and Make wait for a real log or a real build.
 
 ### Other distros, same workstation idea

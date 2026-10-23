@@ -8,6 +8,8 @@ This is a *client-software* chapter. We will not install a PostgreSQL server her
 
 Omarchy ships a lot. It does not ship *everything*, and it does not replace its own manual. When a section below is a pointer instead of a recipe, that is on purpose.
 
+**Last checked:** October 2026 against Omarchy Quattro (4.0.6). Keybindings and menu labels move with the release; the manual wins.
+
 ## Start here, then steal from the manual
 
 | What | Link |

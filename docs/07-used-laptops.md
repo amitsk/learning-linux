@@ -17,6 +17,10 @@ This section is shopping advice plus revival advice. Pair it with [Linux Mint Ci
 
 Environmental angle, said once: extending a laptop's life is the greenest upgrade. Then we go back to RAM.
 
+Two things happened at once, and they are why the used market is full right now. Windows 10 stopped receiving security fixes in October 2025, and Windows 11 wants a TPM 2.0 chip plus an 8th-generation Intel or Ryzen 2000 CPU. Plenty of 2017–2019 laptops have neither. Machines that browse, compile, and Zoom perfectly well are being retired because Microsoft changed the guest list. That is your discount. Check the TPM story before you buy — not because you need Windows, but because everyone selling is pricing against it.
+
+**Last checked:** October 2026. Used prices and Windows requirements move; the hardware advice does not.
+
 ## What actually matters (in order)
 
 | Priority | Target for coursework | Why |
@@ -70,6 +74,21 @@ If the listing photos show a Broadcom Wi-Fi card and you cannot change it, have 
 5. Battery: unplug it. If it dies in twenty minutes, negotiate the price of a replacement cell, do not pretend it is fine.
 6. Ask whether it is **stolen**, **firmware-locked**, or still **MDM / school enrolled**. Walk away from those.
 
+### The ten-minute live-session check
+
+Boot the Mint USB and confirm these six things before money changes hands:
+
+| Check | What to do | What good looks like |
+| --- | --- | --- |
+| **Wi-Fi** | Connect to the café network | Joins without a driver hunt; survives a sleep |
+| **Suspend** | Close the lid, wait ten seconds, open it | Wakes to the lock screen, not a black rectangle |
+| **Audio** | Play a video | Sound from the speakers, headphone jack still works |
+| **Webcam** | Open the camera app or a browser test page | You, in focus, not a green rectangle |
+| **Brightness** | Press the brightness keys | The screen dims; the keys are not decorative |
+| **Touchpad** | Two-finger scroll, tap-to-click | The pointer obeys, including after suspend |
+
+If Wi-Fi fails and the machine has an Intel card, try `rfkill list` and `dmesg | grep -i firmware`. If suspend fails, you can often live with it, but you should know before you pay. These six checks are the difference between "Linux works on it" and "Linux works on it except the part you use every day."
+
 Pay a little more for a machine with an SSD already installed. Swapping a 2.5" SATA disk is easy; some ultrabooks are not.
 
 ## Bringing an old laptop back
@@ -106,10 +125,67 @@ If the live USB cannot see the disk, look in firmware for **SATA mode**. RAID/RS
 ### How old is too old?
 
 - 64-bit CPU is required for current Mint/Ubuntu/Fedora. 32-bit-only machines are museum pieces. Check with `lscpu` in a live session or the CPU model on the seller page.
-- **2 GB RAM** can run XFCE for a terminal and a browser tab. It cannot run "modern web + VS Code + Chrome."
+- **4 GB RAM** is the floor for a browser and a terminal. **2 GB** can run XFCE as a terminal-only machine, but a modern website will make it reconsider its choices. Do not buy 2 GB for coursework.
+- **8 GB** is the realistic minimum for "browser + editor + a compiler." **16 GB** is the student sweet spot if the slots are there.
 - Pre-UEFI BIOS boxes can still install Linux. They cannot dual-boot with current Windows sanely. Dedicated Linux install, or leave them as a terminal lab.
 
 When the laptop is truly too slow: it can still be a **home SSH box**, a Git remote, or a PostgreSQL toy server sitting on a shelf. That is a respectable retirement.
+
+## When the hardware fights back
+
+Five problems account for most "Linux does not work on my laptop" evenings. None of them require a reinstall.
+
+### Wi-Fi
+
+```bash
+lspci -nn | grep -i network        # which chip is it?
+rfkill list                        # is it blocked in software?
+sudo dmesg | grep -i -E 'firmware|iwlwifi|rtw|brcm'
+```
+
+Intel cards usually just work. Broadcom is the usual culprit; on Mint, open **Driver Manager** first and let it offer the proprietary driver. The manual version is `sudo apt install bcmwl-kernel-source`, then reboot. If `rfkill` says `Soft blocked: yes`, run `sudo rfkill unblock wifi` before you debug the driver.
+
+### NVIDIA
+
+Open **Driver Manager** and pick the recommended proprietary driver. On Ubuntu, the terminal equivalent is:
+
+```bash
+ubuntu-drivers devices
+sudo ubuntu-drivers autoinstall
+nvidia-smi          # after reboot; if this prints a table, the driver is alive
+```
+
+If the screen goes black before the desktop, boot with `nomodeset` added to the kernel line in GRUB, get in, and install the driver from there. The open-source `nouveau` driver is fine for a desktop and poor for CUDA.
+
+### Audio
+
+```bash
+sudo apt install pavucontrol
+pavucontrol                         # check the Output tab and the profile
+alsamixer                           # unmute anything with MM above it
+systemctl --user status pipewire wireplumber
+```
+
+Nine times out of ten the device is muted, on the wrong profile, or output is going to HDMI because the laptop once saw a monitor. `pavucontrol` shows which.
+
+### Bluetooth
+
+```bash
+systemctl status bluetooth
+rfkill list bluetooth
+bluetoothctl
+```
+
+Inside `bluetoothctl`: `power on`, `agent on`, `scan on`, then `pair <MAC>` and `trust <MAC>`. If the adapter is missing entirely, it is the same firmware story as Wi-Fi.
+
+### Suspend and resume
+
+```bash
+systemctl suspend
+journalctl -b -1 | tail -50         # the boot that failed to wake
+```
+
+Wake failures are firmware-shaped. Update the BIOS with `fwupdmgr get-updates` if `fwupd` is installed (`sudo apt install fwupd`), try a newer kernel, and check the model's page on [Linux Hardware](https://linux-hardware.org/). If suspend is hopeless, disabling it is a valid answer for a desk-bound machine.
 
 ## Suggested cart for a used workstation
 
