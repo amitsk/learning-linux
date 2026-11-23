@@ -12,7 +12,7 @@ This chapter stops at a working toolchain. Once `python`, `go`, `node`, or `carg
 
 If a professor says "use the Java on the lab machines," use that version. mise exists so you can *match* it at home, not so you can invent a fourth JDK.
 
-**Last checked:** October 2026. Versions in the examples (`python@3.12`, `go@1.24`) are illustrations, not the current release. Run `mise ls-remote python` or `mise ls-remote go` when you want today's list, and pin what your course actually uses.
+**Last checked:** November 2026. Versions in the examples (`python@3.12`, `go@1.24`) are illustrations, not the current release. Run `mise ls-remote python` or `mise ls-remote go` when you want today's list, and pin what your course actually uses.
 
 ## Distro packages vs a version manager
 

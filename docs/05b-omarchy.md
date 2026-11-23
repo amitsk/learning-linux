@@ -8,7 +8,7 @@ This is a *client-software* chapter. We will not install a PostgreSQL server her
 
 Omarchy ships a lot. It does not ship *everything*, and it does not replace its own manual. When a section below is a pointer instead of a recipe, that is on purpose.
 
-**Last checked:** October 2026 against Omarchy Quattro (4.0.6). Keybindings and menu labels move with the release; the manual wins.
+**Last checked:** November 2026 against Omarchy Quattro (4.0.6). Keybindings and menu labels move with the release; the manual wins.
 
 ## Start here, then steal from the manual
 
@@ -117,7 +117,7 @@ omarchy pkg drop some-package
 
 The [Omarchy CLI](https://omarchy.org/manual/omarchy-cli/) (`omarchy`, then tab-complete) is the same system the menu drives. Agents can call it. That is not an accident.
 
-**Mint users:** there is no `apt search` habit to unlearn so much as a new front-end. The package still has a name. You still should not mix random third-party repos like trading cards. Omarchy's own repos plus Arch core/extra/multilib are the blessed path; AUR is opt-in.
+**Mint users:** there is no `apt search` habit to unlearn so much as a new front-end. The package still has a name, and the same restraint applies: stick to Omarchy's repos plus Arch core/extra/multilib, and treat AUR packages as opt-in.
 
 ## 5b.4 Basic tools, git, and gh
 
@@ -209,66 +209,21 @@ Omarchy also has *Setup → Reset Computer* for handing a machine to someone els
 
 ## 5b.8 Database clients (no server in this chapter)
 
-**No PostgreSQL server install here.** 5a walked through `apt install postgresql` as a host service. On Omarchy, if you need a local engine, prefer **Install → Development → Docker DB** from the menu and read [Development Tools → Docker](https://omarchy.org/manual/development-tools/#docker). This section is clients: things that *connect*.
+**No host PostgreSQL server install here.** If you need a local database on Omarchy, use **Install → Development → Docker DB** ([Docker docs](https://omarchy.org/manual/development-tools/#docker)).
 
-GUI:
-
-- **[DBeaver](https://dbeaver.io/)** — [download](https://dbeaver.io/download/). Install via *Install → Package* / AUR, or follow their Linux instructions.
-
-Terminal:
-
-- **[pgcli](https://www.pgcli.com/)** — [dbcli/pgcli](https://github.com/dbcli/pgcli)
-- **[mycli](https://www.mycli.net/)** — [dbcli/mycli](https://github.com/dbcli/mycli)
-- **[usql](https://github.com/xo/usql)** — one CLI, many SQL dialects
-
-Utility, not a client:
-
-- **[sq](https://sq.io/)** — jq-shaped queries against databases and files. [Overview](https://sq.io/docs/overview/) · [install](https://sq.io/docs/install/). Use it to wrangle; use DBeaver or pgcli to browse.
-
-Arch does not ship a tiny `postgresql-client` package the way Debian does; `psql` lives with the server package. Prefer pgcli/usql/DBeaver, or talk to a database in Docker. Point clients at that container, a course server, or a cloud instance. Do not UFW-open 5432 for fun.
+For clients, the exact same lineup from [section 5.10](05-dev-workstation.md#510-database-clients) applies (**[DBeaver](https://dbeaver.io/)**, **[pgcli](https://www.pgcli.com/)**, **[mycli](https://www.mycli.net/)**, **[usql](https://github.com/xo/usql)**, and **[sq](https://sq.io/)**) — install via *Install → Package* / AUR or upstream docs. One Arch quirk: there is no tiny standalone `postgresql-client` package (`psql` ships with the server), so `pgcli`/`usql`/DBeaver or talking to a Docker container is cleaner. Still don't UFW-open 5432 for fun.
 
 ## 5b.9 REST clients
 
-Same set as 5a, Arch-shaped installs. Prefer the project docs over a pacman line copied from a blog.
-
-### GUIs
-
-- **[Insomnia](https://insomnia.rest/)** — [docs](https://developer.konghq.com/insomnia/)
-- **[Postman](https://www.postman.com/)** — [docs](https://learning.postman.com/docs/introduction/overview/)
-- **[Bruno](https://www.usebruno.com/)** — collections as files in git. [docs](https://docs.usebruno.com/)
-
-*Install → Package* or *Install → AUR* as needed. One GUI is enough.
-
-### curl, HTTPie, xh
-
-[curl](https://curl.se/) is already there. Learn it from the source, not from a Slack screenshot:
-
-- [HTTP scripting with curl](https://curl.se/docs/httpscripting.html)
-- [Everything curl](https://everything.curl.dev/) (the [HTTP](https://everything.curl.dev/http) chapters)
-- [learning-shell](https://github.com/amitsk/learning-shell) once you want this in a pipeline
-
-```bash
-curl -I https://example.com
-```
-
-Friendlier CLIs: **[HTTPie](https://httpie.io/docs/cli)** and its Rust clone **[xh](https://github.com/ducaale/xh)**. `xh` is a package on Arch (`omarchy pkg add xh`). Agents will still paste `curl`. You can type `xh`.
+Same toolkit as [section 5.11](05-dev-workstation.md#511-rest-clients): pick one GUI (**[Insomnia](https://insomnia.rest/)**, **[Postman](https://www.postman.com/)**, or **[Bruno](https://www.usebruno.com/)**) via *Install → Package* / AUR. [`curl`](https://curl.se/) is already installed — brush up with [HTTP scripting with curl](https://curl.se/docs/httpscripting.html) or [learning-shell: HTTP tools](https://github.com/amitsk/learning-shell/blob/main/scripts/tools_http.md). For friendlier CLI typing, `omarchy pkg add xh` installs **[xh](https://github.com/ducaale/xh)** (fast Rust clone of **[HTTPie](https://httpie.io/docs/cli)**).
 
 ## 5b.10 jq and yq
 
-JSON from APIs, YAML from Compose and every GitHub Action you will ever debug.
-
-- **[jq](https://jqlang.org/)** — [tutorial](https://jqlang.org/tutorial/) · [manual](https://jqlang.org/manual/). `omarchy pkg add jq`
-- **[yq](https://mikefarah.gitbook.io/yq/)** — [mikefarah/yq](https://github.com/mikefarah/yq), the Go one. Confirm the binary before you trust a filter; the Python project of the same name is a different animal.
-
-```bash
-curl -s https://httpbin.org/get | jq '.headers'
-```
-
-`curl` fetches, `jq` picks. Same story as 5a; different grocery store.
+Same pair as [section 5.12](05-dev-workstation.md#512-jq-and-yq): `omarchy pkg add jq` for **[jq](https://jqlang.org/)** ([tutorial](https://jqlang.org/tutorial/)), and **[mikefarah/yq](https://mikefarah.gitbook.io/yq/)** (confirm you get the Go binary, not the unrelated Python package of the same name). `curl` fetches, `jq` picks; different grocery store, same dinner.
 
 ## 5b.11 Editors and coding agents
 
-Omarchy's default editor is **[Neovim](https://omarchy.org/manual/neovim/)**. If that is not this semester's personality, *Install → Editor* offers VS Code, Cursor, Zed, Sublime, Helix, Vim, Emacs. Set the default under *Setup → Defaults → Editor*. Details: [Development Tools](https://omarchy.org/manual/development-tools/).
+Omarchy's default editor is **[Neovim](https://omarchy.org/manual/neovim/)**. If you prefer another flavor this semester, *Install → Editor* offers VS Code, Cursor, Zed, Sublime, Helix, Vim, and Emacs (*Setup → Defaults → Editor* switches the default; see [Development Tools](https://omarchy.org/manual/development-tools/)).
 
 VS Code Linux background, if you pick it: [Visual Studio Code on Linux](https://code.visualstudio.com/docs/setup/linux). Language extensions still wait for [section 6](06-languages.md#vs-code-extensions).
 

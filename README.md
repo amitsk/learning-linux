@@ -23,7 +23,7 @@ You do **not** need prior Linux experience. Curiosity and a computer that can ru
 | Want the default, least-surprise first desktop | **Linux Mint Cinnamon** | This tutorial's main path. Menu, mouse, Ubuntu packages |
 | Have an older or tired laptop | **Mint XFCE** or [Xubuntu](https://xubuntu.org/) | Same Debian family, less desktop to carry |
 | Like Ubuntu's ecosystem but not GNOME | [Ubuntu Budgie](https://ubuntubudgie.org/) | Panel-and-menu grammar, a bit more polish than Mint |
-| Want newer packages and a faster cadence | [Fedora Workstation](https://fedoraproject.org/workstation/) | Upstream-first, `dnf`, six-month releases |
+| Want newer packages and a faster cadence | [Fedora](https://fedoraproject.org/) (Workstation, KDE, or [Spins](https://fedoraproject.org/spins/)) | Upstream-first, `dnf`, six-month releases, choice of desktop |
 | Want the keyboard to be the interface | [Omarchy](docs/05b-omarchy.md) | Arch + Hyprland, tiling, `Super` does everything |
 | Are not ready to touch your disk | [Mint in a VM](docs/04-running-linux.md) or WSL 2 | Zero risk; same commands, reversible mistakes |
 
@@ -37,7 +37,7 @@ Read the sections in order the first time. After that, treat them as a map:
 | --- | --- |
 | [1. Basics of Linux](docs/01-linux-basics.md) | Where Linux is used, essential vocabulary, and where the shell tutorial fits |
 | [2. How Linux is put together](docs/02-linux-design.md) | The kernel vs the distro, userspace tooling, and diagrams of the stack |
-| [3. Choosing a Linux distribution](docs/03-linux-distributions.md) | Debian, Ubuntu, Mint, Fedora, desktop choices, cloud-provider distros, and Omarchy |
+| [3. Choosing a Linux distribution](docs/03-linux-distributions.md) | Debian, Ubuntu, Mint, Fedora (Editions & Spins), desktops, cloud distros, and Omarchy |
 | [4. Running Linux: virtual machines and containers](docs/04-running-linux.md) | VirtualBox and alternatives, WSL, Docker, and cloud container services |
 | [5a. Development workstation](docs/05-dev-workstation.md) | Linux Mint Cinnamon install, `apt`, updates, SSH, UFW, users/groups, PostgreSQL, GitHub CLI, editors, DB/REST clients |
 | [5b. Omarchy workstation](docs/05b-omarchy.md) | Omarchy Quattro: Arch, Hyprland, keyboard-first setup, same client tools, no Postgres server |

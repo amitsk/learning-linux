@@ -10,26 +10,9 @@ This section is the mental model. You do not need to compile a kernel. You do ne
 
 ## The one-sentence design
 
-> Linux is a kernel. A distro is that kernel **bundled** with GNU (and other) tools, a service manager, a package manager, and, for desktop editions, a graphical environment.
+> Linux is a kernel. A distro is that kernel **bundled** with userland tools, a service manager, a package manager, and (on desktops) a graphical environment.
 
-```text
-+--------------------------------------------------+
-|  Apps: browser, VS Code, psql, your homework     |
-+--------------------------------------------------+
-|  Desktop: Cinnamon / GNOME / XFCE / Budgie       |
-+--------------------------------------------------+
-|  Userland tools: bash, coreutils, ssh, apt/dnf   |
-|  libraries: glibc, OpenSSL, ...                  |
-+--------------------------------------------------+
-|  Service manager: systemd                        |
-+--------------------------------------------------+
-|  Linux kernel: processes, memory, drivers, net   |
-+--------------------------------------------------+
-|  Hardware: CPU, RAM, disk, GPU, Wi-Fi            |
-+--------------------------------------------------+
-```
-
-The kernel is the landlord. Everything above it is a tenant that asks politely (via **system calls**) to read a file, open a socket, or map memory.
+The kernel is the landlord. Everything above it is a tenant that asks politely (via [system calls](https://man7.org/linux/man-pages/man2/syscalls.2.html)) to read a file, open a socket, or map memory.
 
 ## Kernel vs operating system vs distro
 
@@ -42,13 +25,14 @@ config:
 flowchart TB
   subgraph Distro["Linux Mint / Ubuntu / Fedora"]
     subgraph OS["What people casually call \"the OS\""]
-      Kernel["Linux kernel<br/>process scheduler, VM, VFS, drivers, net stack"]
-      Userland["Userland<br/>libc, coreutils, bash, sshd, postgres, desktop"]
+      Kernel["Linux kernel<br/>scheduler, VM, drivers, filesystems, net stack"]
+      Init["Service manager: systemd (PID 1)"]
+      Userland["Userland<br/>glibc, coreutils, bash, apt/dnf, sshd, postgres"]
+      Desktop["Desktop & apps<br/>Cinnamon/GNOME/XFCE, browser, VS Code"]
     end
-    Extras["Distro extras<br/>installer, repos, default configs, branding, docs"]
+    Extras["Distro extras<br/>installer, signed repos, defaults, docs"]
   end
-  Hardware[Hardware] --> Kernel
-  Kernel --> Userland
+  Hardware[Hardware: CPU, RAM, disk, GPU, Wi-Fi] --> Kernel --> Init --> Userland --> Desktop
   Userland --> Extras
 ```
 
@@ -163,7 +147,7 @@ Useful consequences:
 - Permissions are on files (and directories). `/etc` is config; `/home/you` is yours; `/var/lib/postgresql` is the database's house.
 - On these distros, systemd manages services through units; restarting a failed process depends on the unit's configuration.
 
-The filesystem layout is documented in `man hier` and the [Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html). Short version:
+The filesystem layout is documented in [`man 7 hier`](https://man7.org/linux/man-pages/man7/hier.7.html) and the [Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html). Short version:
 
 | Path | Typical contents |
 | --- | --- |

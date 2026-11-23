@@ -2,7 +2,7 @@
 
 [← How Linux is put together](02-linux-design.md) · [Home](../README.md) · [Running Linux: VMs and containers →](04-running-linux.md)
 
-A distribution turns the Linux kernel and user-space software into an installable, maintained system. Choosing one means choosing its packages, update policy, support, and defaults. Start with Linux Mint Cinnamon for this tutorial, or use the distro your course requires.
+A distribution turns the Linux kernel and a pile of open-source software into something you can actually boot, install, and keep patched. Picking a distro means picking its packages, update rhythm, and defaults. For this tutorial, start with **Linux Mint Cinnamon** — unless your professor already picked one for you.
 
 ## Three distros worth knowing
 
@@ -20,30 +20,28 @@ Mint is the "I want this to feel like a normal computer" option. That is a featu
 
 ### Ubuntu — and the Debian foundation
 
-[Debian](https://www.debian.org/intro/about) is a community-run distribution and an upstream foundation for many others. It brings together the Linux kernel, core libraries, command-line tools, and a large package archive. Its `.deb` format, `dpkg` package installer, and APT dependency and repository tools form the packaging foundation inherited by Ubuntu. Debian's stable releases emphasize tested combinations of software.
+[Debian](https://www.debian.org/intro/about) is the community-run bedrock behind a huge chunk of Linux. It gives us `.deb` packages, `dpkg`, `apt`, and stable releases that prioritize "boring and tested" over shiny.
 
-[Ubuntu](https://ubuntu.com/) builds on Debian's work, with Canonical and its community maintaining their own repositories, integration, releases, and security updates. Ubuntu is a [Debian derivative](https://www.debian.org/derivatives/), not simply Debian with a different wallpaper. **LTS** means long-term support; these releases suit a workstation you want to keep through several semesters. The default Ubuntu desktop uses **GNOME**, while flavors offer other desktops. See [Ubuntu's release cycle](https://ubuntu.com/about/release-cycle).
+[Ubuntu](https://ubuntu.com/) builds on Debian as a [derivative](https://www.debian.org/derivatives/) with Canonical's own repos, release schedule, and polish. Its **LTS** (long-term support) releases are built to outlast several semesters without surprises — see [Ubuntu's release cycle](https://ubuntu.com/about/release-cycle). Default Ubuntu ships **GNOME**; official [Ubuntu flavors](https://ubuntu.com/desktop/flavours) swap in other desktops.
 
-The family relationship for the main Mint edition is **Debian → Ubuntu → Linux Mint**. That explains why this tutorial's APT commands transfer well between them. It does **not** mean their repositories or arbitrary `.deb` packages can be mixed: use instructions for your exact distro and release. Mint also offers [LMDE](https://linuxmint.com/download_lmde.php), a separate edition based directly on Debian.
+The family tree is **Debian → Ubuntu → Linux Mint**, which is why `apt` commands transfer cleanly across all three. Just don't mix repositories or random `.deb` files across releases — cousins share genes, not kidneys. (Mint also offers [LMDE](https://linuxmint.com/download_lmde.php), based directly on Debian.)
 
-- Desktop install tutorial: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop)
-- Flavors: [Ubuntu flavors](https://ubuntu.com/desktop/flavours)
-  - [Ubuntu Desktop](https://ubuntu.com/desktop) — GNOME
-  - [Xubuntu](https://xubuntu.org/) — XFCE
-  - [Ubuntu Budgie](https://ubuntubudgie.org/) — Budgie
+- Desktop: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) · [Ubuntu Desktop](https://ubuntu.com/desktop) (GNOME) · [Xubuntu](https://xubuntu.org/) (XFCE) · [Ubuntu Budgie](https://ubuntubudgie.org/) (Budgie)
 - Server (no GUI, typical for VMs): [Ubuntu Server](https://ubuntu.com/download/server)
 
 If a cloud assignment, Docker doc, or internship laptop image says Ubuntu, this is why.
 
-### Fedora — the one that lives closer to upstream
+### Fedora — upstream-first, with Editions and Spins
 
-[Fedora](https://fedoraproject.org/) is sponsored by Red Hat and generally ships newer kernels, GNOME, and toolchains than Ubuntu LTS or Mint. Its package manager is **DNF**. Its faster release cycle suits readers who want recent software and are comfortable upgrading more frequently.
+[Fedora](https://fedoraproject.org/) is community-driven, sponsored by Red Hat, and lives closer to upstream: newer kernels, recent compilers, Wayland and SELinux enabled by default, and **DNF** for packages. Think of it as where enterprise Linux features try on their outfits before heading to Red Hat Enterprise Linux. Its ~6-month release cadence is great for newer laptops or readers who like fresh toolchains and don't mind upgrading twice a year.
 
-- Workstation download: [Fedora Workstation](https://fedoraproject.org/workstation/download)
-- Install guide: [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/)
-- Other desktops: [Fedora Spins](https://fedoraproject.org/spins/), including [Fedora XFCE](https://fedoraproject.org/spins/xfce/) and [Fedora Budgie](https://fedoraproject.org/spins/budgie/)
+Fedora organizes its desktops into three buckets:
 
-Fedora can also be a first distro, especially when a course requires it or newer hardware benefits from its software stack. This tutorial uses Mint, so translate the package-management steps using the Fedora notes.
+- **Flagship Editions:** [Fedora Workstation](https://fedoraproject.org/workstation/) (clean, unmodified GNOME) and [Fedora KDE Plasma Desktop](https://fedoraproject.org/kde/) (promoted to a full flagship Edition alongside Workstation).
+- **[Fedora Spins](https://fedoraproject.org/spins/):** Official, community-maintained builds that keep the same Fedora base and `dnf` repos while swapping the desktop — lightweight/classic ([Xfce](https://fedoraproject.org/spins/xfce/), [Cinnamon](https://fedoraproject.org/spins/cinnamon/), [MATE](https://fedoraproject.org/spins/mate/), [LXQt](https://fedoraproject.org/spins/lxqt/)), modern ([Budgie](https://fedoraproject.org/spins/budgie/), [COSMIC](https://fedoraproject.org/spins/cosmic/)), or keyboard-first tiling WMs ([Sway](https://fedoraproject.org/spins/sway/), [i3](https://fedoraproject.org/spins/i3/)).
+- **[Fedora Atomic Desktops](https://fedoraproject.org/atomic-desktops/):** Immutable, image-based variants (like Silverblue for GNOME and Kinoite for KDE) for folks who prefer clean OS rollbacks over hand-editing `/usr`.
+
+Install guide: [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/). This tutorial walks through Mint, so swap `apt` for `dnf` using the Fedora notes at the end of each step.
 
 ### Quick comparison
 
@@ -51,12 +49,12 @@ Fedora can also be a first distro, especially when a course requires it or newer
 | --- | --- | --- | --- |
 | Family | Ubuntu / Debian | Debian | Red Hat |
 | Packages | `apt` | `apt` | `dnf` |
-| Default desktop | Cinnamon | GNOME | GNOME |
+| Default desktop | Cinnamon | GNOME | GNOME (Workstation) or KDE Plasma; plus [Spins](https://fedoraproject.org/spins/) |
 | Release feel | Stable, conservative | LTS + interim | Fresh, ~6 month cadence |
-| Best first use | Daily driver, older laptops | Class / cloud familiarity | Upstream and newer hardware |
-| Official start | [Download Mint](https://linuxmint.com/download.php) | [Install Ubuntu](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora Workstation](https://fedoraproject.org/workstation/download) |
+| Best first use | Daily driver, older laptops | Class / cloud familiarity | Upstream toolchains & newer hardware |
+| Official start | [Download Mint](https://linuxmint.com/download.php) | [Install Ubuntu](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora Workstation](https://fedoraproject.org/workstation/download) · [Spins](https://fedoraproject.org/spins/) |
 
-Explore [DistroWatch](https://distrowatch.com/) for distribution summaries, release news, and links to project websites. Its page-hit ranking measures interest on that site, not installed market share or quality. Debian, Arch, openSUSE, and NixOS offer other approaches; compare their installation and maintenance requirements before choosing.
+Curious what else is out there? [DistroWatch](https://distrowatch.com/) tracks releases and links to project homepages (its ranking measures clicks on that site, not real-world market share — treat it like a menu, not a leaderboard). Debian, Arch, openSUSE, and NixOS are all fun rabbits to chase *after* your assignments compile.
 
 ## Desktop flavors: XFCE, GNOME, Budgie (and Cinnamon)
 
@@ -116,17 +114,9 @@ Software on Linux does not start with a random installer `.exe`. You ask the dis
 
 There are also **Flatpak** (Mint loves this), **Snap** (Ubuntu loves this), and language-level tools (`uv`, `cargo`, `npm`). Distro packages first; random scripts from blogs later, and only after you read them.
 
-## What "flavor" should *you* install?
+## Bottom line: pick one and stop shopping
 
-**Default recommendation:** [Linux Mint Cinnamon](https://linuxmint.com/download.php).
-
-Choose something else only if:
-
-- The laptop is ancient and tired → Mint **XFCE** or [Xubuntu](https://xubuntu.org/)
-- A course or cloud assignment is explicitly Ubuntu-shaped → [Ubuntu Desktop](https://ubuntu.com/desktop) (GNOME) or [Ubuntu Budgie](https://ubuntubudgie.org/)
-- You want newer packages and GNOME as upstream sees it → [Fedora Workstation](https://fedoraproject.org/workstation/download)
-
-Then stop shopping. An installed OS teaches more than a spreadsheet of distro logos.
+Default pick: **[Linux Mint Cinnamon](https://linuxmint.com/download.php)**. Reach for Mint **XFCE** / [Xubuntu](https://xubuntu.org/) on an ancient laptop, [Ubuntu](https://ubuntu.com/desktop) if a course demands it, or [Fedora](https://fedoraproject.org/) (Workstation, KDE, or a [Spin](https://fedoraproject.org/spins/)) if you want newer packages. An installed OS teaches more than a spreadsheet of distro logos.
 
 ## Industry context: Distributions made by cloud providers
 

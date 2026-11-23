@@ -6,7 +6,7 @@ This is the "make the computer useful" chapter. The reference desktop is **Linux
 
 If you would rather run a keyboard-first Arch desktop, that path is [chapter 5b: Omarchy](05b-omarchy.md). This chapter is the start-menu-and-mouse path. Most of the *ideas* transfer; the keybindings do not.
 
-**Last checked:** October 2026. Package names and vendor install commands move; the concepts do not.
+**Last checked:** November 2026. Package names and vendor install commands move; the concepts do not.
 
 You will:
 
@@ -47,19 +47,7 @@ Practical notes that the installer will not put on a motivational poster:
 
 ### Same job, other distros
 
-The rest of this chapter is written against Mint Cinnamon, but the job is "a Debian-family desktop with a start menu and a mouse." Two Ubuntu flavors are excellent *light* alternatives if Mint feels heavy, the laptop is tired, or you simply like their look:
-
-- **[Xubuntu](https://xubuntu.org/)** — Ubuntu with [XFCE](https://www.xfce.org/). Traditional panel, application menu, click-to-launch. Kind to old laptops; see [chapter 7](07-used-laptops.md).
-- **[Ubuntu Budgie](https://ubuntubudgie.org/)** — Ubuntu with [Budgie](https://buddiesofbudgie.org/). Same menu-and-mouse grammar as Mint, a bit more polish, still lighter than GNOME.
-
-Both keep the navigation paradigm this chapter assumes: a menu, windows you drag, settings you click. You will not need a tiling-window-manager cheat sheet. And because they are Ubuntu under the hood, **most of the material in this chapter works with minimal modifications** — `apt`, OpenSSH, UFW, `adduser`, PostgreSQL packages, VS Code's `.deb` repo. The menu labels differ; the commands do not. Install from their docs, then start at [first boot](#52-first-boot-become-a-boring-up-to-date-machine).
-
-Other options, if a course or curiosity demands them:
-
-- Ubuntu GNOME: [Install Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) · all [Ubuntu flavors](https://ubuntu.com/desktop/flavours)
-- Fedora Workstation (GNOME): [Download](https://fedoraproject.org/workstation/download) · [Getting started / install](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/)
-- Fedora other desktops: [Fedora Spins](https://fedoraproject.org/spins/)
-- Keyboard-first Arch desktop: [chapter 5b, Omarchy](05b-omarchy.md)
+Running **[Xubuntu](https://xubuntu.org/)**, **[Ubuntu Budgie](https://ubuntubudgie.org/)**, or **[Ubuntu Desktop](https://ubuntu.com/desktop)**? Same Ubuntu plumbing — the `apt`, SSH, UFW, PostgreSQL, and VS Code steps below work nearly verbatim. On **[Fedora](https://fedoraproject.org/)** (Workstation, [KDE Plasma](https://fedoraproject.org/kde/), or any [Fedora Spin](https://fedoraproject.org/spins/)), follow the `dnf` notes at the end of each step. For a keyboard-first Arch desktop, head to [chapter 5b: Omarchy](05b-omarchy.md). Quick distro crosswalk: [section 5.16](#other-distros-same-workstation-idea).
 
 ## 5.2 First boot: become a boring, up-to-date machine
 
@@ -204,180 +192,45 @@ If you want a faster or more modern emulator, the usual alternatives are [Ghostt
 
 ### Coding fonts: Nerd Fonts (banishing the tofu)
 
-Your default terminal font renders letters and numbers just fine. But the moment a modern prompt or editor tries to display a Git branch icon (``), a Python snake, a folder glyph, or a Docker whale, standard fonts surrender and show a hollow rectangle (`□`) or a question mark inside a diamond (``). In terminal typography, this is affectionately known as **tofu**—and staring at a terminal full of tofu makes reading your status line feel like deciphering alien hieroglyphs.
+Standard monospace fonts handle letters and numbers fine, then surrender the moment a prompt prints a Git branch icon (``) or folder glyph — leaving hollow boxes (`□`) or replacement diamonds (&#xFFFD;), affectionately called **tofu**.
 
-Enter **[Nerd Fonts](https://www.nerdfonts.com/)**. The Nerd Fonts project takes beloved open-source monospaced fonts and patches them with thousands of developer glyphs and symbols from Font Awesome, Devicons, Octicons, and Powerline.
+**[Nerd Fonts](https://www.nerdfonts.com/)** patches popular coding fonts with developer icons. Pick **one** (installing fifteen fonts does not make your code compile faster):
 
-#### Recommended fonts
-
-Pick one. Installing fifteen fonts does not make your code compile faster.
-
-| Font | Vibe | Download link |
+| Font | Vibe | Download |
 | --- | --- | --- |
-| **JetBrains Mono Nerd Font** | Modern, clean, generous x-height, engineered for readability | [JetBrainsMono.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz) |
-| **Fira Code Nerd Font** | The classic developer darling with programming ligatures (`!=`, `->`) | [FiraCode.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz) |
-| **Meslo LGS NF** | The battle-tested default recommended by many prompt themes | [Meslo.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.tar.xz) |
-| **Hack Nerd Font** | Geometric, crisp, workhorse monospace with no surprises | [Hack.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz) |
+| **JetBrains Mono NF** | Clean, generous x-height | [JetBrainsMono.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz) |
+| **Fira Code NF** | Classic with ligatures (`!=`, `->`) | [FiraCode.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz) |
+| **Meslo LGS NF** | Default for many prompt themes | [Meslo.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.tar.xz) |
+| **Hack NF** | Crisp, zero-surprise monospace | [Hack.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz) |
 
-#### How to install (any Linux distro)
-
-You don't need root, a PPA, or a package manager to install fonts on Linux. Fontconfig automatically looks in `~/.local/share/fonts` for user-installed fonts:
+No `sudo` needed — Fontconfig watches `~/.local/share/fonts`:
 
 ```bash
-# 1. Create your user fonts directory
-mkdir -p ~/.local/share/fonts
-
-# 2. Download and extract your chosen font (e.g. JetBrains Mono)
-cd ~/.local/share/fonts
+mkdir -p ~/.local/share/fonts && cd ~/.local/share/fonts
 curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
-tar -xf JetBrainsMono.tar.xz
-rm JetBrainsMono.tar.xz
-
-# 3. Refresh the font cache so the system discovers it
+tar -xf JetBrainsMono.tar.xz && rm JetBrainsMono.tar.xz
 fc-cache -fv
-```
-
-Verify that the system registered your new font:
-
-```bash
 fc-list : family | grep -i "JetBrainsMono Nerd Font" | head -n 3
 ```
 
-#### Actually tell your terminal to use it
+Then tell your terminal to actually use it (Linux will not guess your taste):
 
-Downloading a font does not automatically configure your terminal. Linux respects your autonomy, even when you make questionable aesthetic choices.
-
-- **GNOME Terminal (Mint default):**
-  1. Open the terminal, go to **Edit** → **Preferences** (or right-click anywhere in the terminal → **Preferences**).
-  2. Under **Profiles** in the sidebar, click your active profile (usually "Unnamed").
-  3. In the **Text** tab, check the box for **Custom font**.
-  4. Click the font selector button, search for `JetBrainsMono Nerd Font` (or `FiraCode Nerd Font Mono`), set the size to 11 or 12, and click **Select**.
-- **Ghostty:**
-  Add this to `~/.config/ghostty/config`:
-  ```ini
-  font-family = "JetBrainsMono Nerd Font"
-  ```
-- **Kitty / Alacritty:** Set `font_family JetBrainsMono Nerd Font` in `~/.config/kitty/kitty.conf` or `font.normal.family: "JetBrainsMono Nerd Font"` in `~/.config/alacritty/alacritty.toml`.
-
-Restart the terminal or open a fresh tab. Congratulations, you are officially immune to the tofu epidemic.
+- **GNOME Terminal (Mint default):** **Preferences** → active profile → **Text** → **Custom font** → pick `JetBrainsMono Nerd Font`.
+- **Ghostty:** `font-family = "JetBrainsMono Nerd Font"` in `~/.config/ghostty/config` ([docs](https://ghostty.org/docs/config/reference#font-family)).
+- **Kitty / Alacritty:** `font_family JetBrainsMono Nerd Font` in `kitty.conf` ([docs](https://sw.kovidgoyal.net/kitty/conf/#fonts)), or `font.normal.family = "JetBrainsMono Nerd Font"` in `alacritty.toml` ([docs](https://alacritty.org/config-alacritty.html#font)).
 
 ### Prompt customization: Starship and Oh My Posh
 
-The default Bash prompt looks like this:
+The default Bash prompt (`user@workstation:~/homework$`) is plain unbuttered toast. A modern prompt shows your Git branch, dirty files, active Python/Node/Rust runtime, and failed exit codes only when they matter.
 
-```text
-user@workstation:~/projects/homework$ 
-```
+> **Pick one prompt engine.** Initializing both in `~/.bashrc` makes them duel for your prompt on every keypress.
 
-It is functional. It is also the terminal equivalent of plain unbuttered toast. It tells you who you are (which you hopefully remember), where you are, and nothing else. It will not tell you:
-
-- What Git branch you are on,
-- Whether you have 17 unstaged files about to be wiped out by an accidental `git checkout`,
-- What Python virtualenv, Node version, or Rust toolchain is currently active,
-- Or that the last command you ran silently exited with code 137 because the kernel OOM killer murdered it.
-
-Modern prompt engines turn your prompt into an informative heads-up display. The two heavyweight contenders are **Starship** and **Oh My Posh**.
-
-> [!WARNING]
-> **Pick ONE prompt engine.** Adding both `eval "$(starship init bash)"` and `eval "$(oh-my-posh init bash ...)"` to your `~/.bashrc` will cause them to duel for standard output on every single keystroke. It looks like a glitch art festival and will drive you mad.
-
-#### Option A: Starship (fast, clean, Rust-powered)
-
-[Starship](https://starship.rs/) is minimal, blazing fast, and cross-shell (Bash, Zsh, Fish). Its design philosophy is simple: show information only when it is actually relevant. In a Git repo? It shows branch and dirty status. In a Python project? It shows the Python version. On an empty directory? It stays completely out of your way.
-
-**1. Install Starship:**
-
-```bash
-curl -sS https://starship.rs/install.sh | sh
-```
-
-The script is short. Read it before you run it (`curl -sS https://starship.rs/install.sh | less`), then run the line above. *(The official script will ask for sudo only if installing to `/usr/local/bin`; otherwise you can install to `~/.local/bin` without root.)*
-
-**2. Activate in Bash:**
-
-Add the initialization hook to the end of your `~/.bashrc`:
-
-```bash
-echo 'eval "$(starship init bash)"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-Instant gratification: your prompt now shows directory context, Git status, language runtimes, and execution duration.
-
-**3. Customize Starship (optional):**
-
-Starship configuration lives in `~/.config/starship.toml`. If you installed a Nerd Font earlier, enable Starship's rich symbols preset:
-
-```bash
-starship preset nerd-font-symbols -o ~/.config/starship.toml
-```
-
-Or write your own minimal tweaks (`~/.config/starship.toml`):
-
-```toml
-# Don't print a blank line before every prompt
-add_newline = false
-
-# Show execution time for commands that take longer than 2 seconds
-[cmd_duration]
-min_time = 2_000
-format = "took [$duration]($style) "
-
-# Custom prompt character
-[character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[✗](bold red)"
-```
-
-See the [Starship configuration guide](https://starship.rs/guide/) and [presets](https://starship.rs/presets/) for deeper tweaking.
-
-**Fedora:** `sudo dnf copr enable atim/starship && sudo dnf install starship` or use the official curl script.
-
-#### Option B: Oh My Posh (vibrant, thematic, Powerline aesthetic)
-
-[Oh My Posh](https://ohmyposh.dev/) originated in the PowerShell world but has evolved into a full-blown, Go-powered cross-shell prompt engine. If you want colorful "powerline" pill segments, distinct color-coded blocks, and an endless closet of designer themes, Oh My Posh is your vehicle.
-
-**1. Install Oh My Posh:**
-
-```bash
-curl -s https://ohmyposh.dev/install.sh | bash -s
-```
-
-The script drops the binary into `~/.local/bin` and clones 80+ official themes into `~/.cache/oh-my-posh/themes`. Make sure `~/.local/bin` is in your `PATH` (on Mint/Ubuntu, standard `.bashrc` includes it if the directory exists; run `export PATH=$PATH:$HOME/.local/bin` if it's missing in your current session).
-
-**2. Activate in Bash with a theme:**
-
-Add the init command to `~/.bashrc`, pointing to your theme of choice:
-
-```bash
-echo 'eval "$(oh-my-posh init bash --config ~/.cache/oh-my-posh/themes/jandedobbeleer.omp.json)"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-**3. Browse and preview themes:**
-
-The installer puts the official themes in `~/.cache/oh-my-posh/themes`. List them, then preview the one you are considering:
-
-```bash
-ls ~/.cache/oh-my-posh/themes
-oh-my-posh print preview
-```
-
-`print preview` renders the theme you have configured, so you can see it before committing to a `~/.bashrc` line. To try a different theme, point `--config` at another file in that directory (popular picks include `bubbles.omp.json`, `catppuccin.omp.json`, `half-life.omp.json`, and `atomic.omp.json`), then reload your shell.
-
-If you want a gallery with screenshots instead of filenames, the [theme browser](https://ohmyposh.dev/docs/themes) is the honest way to shop. `oh-my-posh get themes` is not a command; `get` only knows `shell`, `millis`, `accent`, `toggles`, and `width`.
-
-#### Starship vs. Oh My Posh: Which should you choose?
-
-| Feature | Starship | Oh My Posh |
+| Tool | Vibe | Docs & Install |
 | --- | --- | --- |
-| **Engine** | Rust (single compiled binary) | Go (single compiled binary) |
-| **Aesthetic** | Discreet, minimalist badges; context appears only when needed | Expressive, full-color Powerline pill segments and banners |
-| **Configuration** | Single `~/.config/starship.toml` file | JSON, YAML, or TOML theme configs |
-| **Theme library** | Modular presets via CLI (`starship preset ...`) | 80+ bundled out-of-the-box community themes |
-| **Best for** | Anyone who wants clean speed and zero distraction | Anyone who wants their terminal to look like a sci-fi flight deck |
+| **[Starship](https://starship.rs/)** | Fast (Rust), minimalist badges, TOML config | [Guide](https://starship.rs/guide/) · [Presets](https://starship.rs/presets/) |
+| **[Oh My Posh](https://ohmyposh.dev/)** | Expressive (Go), Powerline pills, 80+ themes | [Linux install](https://ohmyposh.dev/docs/installation/linux) · [Theme gallery](https://ohmyposh.dev/docs/themes) |
 
-Both tools work across Bash, Zsh, and Fish, and both look broken without a Nerd Font. Try Starship first if you want something fast that gets out of your way; reach for Oh My Posh if you enjoy colorful segment styling.
+Both look broken without a Nerd Font above. Step-by-step installation, `~/.bashrc` setup, and theme preview commands live in one place so they don't drift: **[learning-shell: Starship & Oh My Posh](https://github.com/amitsk/learning-shell/blob/main/scripts/shell_customization.md#5-advanced-prompt-starshiprs-and-oh-my-posh)**.
 
 ### Other terminal polish
 
@@ -388,9 +241,9 @@ Editors (GUI and CLI) are compared in [learning-shell: text editors](https://git
 
 ### Modern replacements for Unix utilities
 
-The tools in [section 5.4](#54-basic-tools-and-utilities) (`curl`, `git`, `htop`) are the ones that still exist on every server. On this workstation you can also install interactive upgrades: nicer defaults at the prompt, same jobs.
+The classics (`curl`, `git`, `htop`, `grep`, `find`, `sed`) exist on every server. On your own workstation, you can install friendlier interactive upgrades for when your eyeballs are on the screen.
 
-**Use the classics in scripts, Makefiles, Dockerfiles, and agent instructions.** Use the tools below when your eyeballs are looking at the glass. Aliasing `cat` to `bat` in a pipeline is how a CI job hangs waiting for `q`. Aliasing `sed` to `sd` is how a script rewrites a file it only meant to print.
+**Keep the classics in scripts, Makefiles, Dockerfiles, and agent instructions.** Aliasing `cat` to `bat` in a pipeline is how a CI job hangs waiting for `q`; aliasing `sed` to `sd` is how a script rewrites a file it only meant to print.
 
 ```bash
 sudo apt install \
@@ -399,27 +252,7 @@ sudo apt install \
   btop duf tealdeer gping
 ```
 
-New to these names? Install the packages, then read [three tools first](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#0-if-you-are-new-install-three-tools) (`fzf`, `rg`, `bat`) before configuring the rest.
-
-Debian/Ubuntu name collisions: the `bat` binary is `batcat`, and `fd-find` installs `fdfind`. Symlinks, `PATH`, and aliases live in the learning-shell chapter linked below. `dust` is not in Ubuntu 24.04 / Mint 22; skip it or install from GitHub releases. `bottom`'s package on Mint is `btm` (command `btm`); `btop` above is enough.
-
-Interactive upgrades (the POSIX tool remains the one you need on a server):
-
-- **`bat`** for viewing files: syntax highlighting, line numbers, git gutters, automatic pager.
-- **`eza`** for listings: color-coded file types, git status in the listing, built-in tree view.
-- **`ripgrep` (`rg`)** for content search: respects `.gitignore`, skips binaries.
-- **`fd`** for filename search: `fd pattern` instead of `find -name`.
-- **`sd`** for find-and-replace at the keyboard. Preview with `sd -p`. A filename without `-p` rewrites the file. Keep `sed` in scripts. [sd](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#sd-find-and-replace).
-- **`zoxide` (`z`)** for directories you have already visited (`z proj`).
-- **`delta`** for git diffs: word-level highlights, `n`/`N` between files, side-by-side when the terminal is wide. Setup is git config, not a shell alias. [Using delta with git](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git).
-- **`duf`** for disk-free tables. (`dust` for "what ate the disk," when the package exists.)
-- **`gping`** when you want `ping` as a live graph.
-
-The copy-paste alias block (and the commands you should leave alone: `sed`, `grep`, `find`, `diff`) is
-**[learning-shell: Aliases for these tools](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools)**.
-What an alias *is* — list, remove, bypass with `\ls` — is [Shell customization: Aliases](https://github.com/amitsk/learning-shell/blob/main/scripts/shell_customization.md#aliases).
-The whole chapter:
-**[Modern Replacements for Unix Utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md)**.
+New to these? Start with [three tools first](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#0-if-you-are-new-install-three-tools) (`fzf`, `rg`, `bat`), then grab the full tool table, Debian `batcat`/`fdfind` traps, [delta git config](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#using-delta-with-git), and copy-paste [alias block](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md#3-aliases-for-these-tools) in **[learning-shell: Modern Replacements for Unix Utilities](https://github.com/amitsk/learning-shell/blob/main/scripts/modern_tools.md)**.
 
 **Fedora:** `sudo dnf install bat ripgrep fd-find fzf eza zoxide git-delta sd btop duf tealdeer gping dust`
 
@@ -557,7 +390,7 @@ GRANT ALL ON SCHEMA public TO devuser;
 
 Pick a real password. "change-me-now" is a sample, not a lifestyle. For a password you plan to keep, use `\password devuser` inside `psql` instead of typing it into a `CREATE USER` statement — `\password` asks twice and keeps the value out of your shell and `psql` history.
 
-> **PostgreSQL 15+ Note:** Modern distros ship PostgreSQL 15 or 16. In these releases, default permissions on the `public` schema are tightened for security. Running `\c homework` and `GRANT ALL ON SCHEMA public TO devuser;` ensures your user can create tables without getting hit with a `permission denied for schema public` error.
+> **PostgreSQL 15+ Note:** Modern distros ship PostgreSQL 15+ (16 on Mint 22 / Ubuntu 24.04; 18 on Ubuntu 26.04). These releases tightened default permissions on the `public` schema, so `\c homework` + `GRANT ALL ON SCHEMA public TO devuser;` saves you from a `permission denied for schema public` surprise.
 
 ### Connect as that user
 
@@ -648,22 +481,9 @@ These are optional. They are also what a lot of students will be asked about in 
 | **Grok Build** | xAI's terminal coding agent | [x.ai/build](https://x.ai/build) · [Grok Build docs](https://docs.x.ai/build/overview) · [GitHub: xai-org/grok-build](https://github.com/xai-org/grok-build) |
 | **Claude Code** | Anthropic's coding agent | [Claude Code](https://claude.com/product/claude-code) · [Overview](https://code.claude.com/docs/en/overview) · [Quickstart](https://code.claude.com/docs/en/quickstart) |
 
-Typical Linux install commands, checked October 2026. Verify on the official page before you pipe anything to a shell — these move:
+Grab the current install command from the official docs above — vendor installers move faster than tutorials, and blindly piping `curl | bash` from memory is a bad habit. Prefer a package manager or read the install script first.
 
-```bash
-# Codex CLI — confirm at https://developers.openai.com/codex/cli/
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
-
-# Grok Build — confirm at https://docs.x.ai/build/overview
-curl -fsSL https://x.ai/cli/install.sh | bash
-
-# Claude Code — confirm at https://code.claude.com/docs/en/quickstart
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-Read the script or use the vendor's package when you can. "Curl to bash" is convenient, not a personality.
-
-The learning-shell [text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) chapter also mentions Vim/Emacs keybindings inside Codex and Grok Build. Once you can exit Vim, you can survive an agent that opens it.
+The learning-shell [text editors](https://github.com/amitsk/learning-shell/blob/main/scripts/text_editors.md) chapter also covers Vim/Emacs keybindings inside Codex and Grok Build. Once you can exit Vim, you can survive an agent that opens it.
 
 ## 5.10 Database clients
 
@@ -705,7 +525,7 @@ Do not memorize flags from a gist. Work through:
 
 - [HTTP scripting with curl](https://curl.se/docs/httpscripting.html) — the practical tutorial
 - [Everything curl](https://everything.curl.dev/) — the book, including the [HTTP](https://everything.curl.dev/http) chapters
-- Companion shell homework: [learning-shell](https://github.com/amitsk/learning-shell) (HTTP tools show up once you have a prompt)
+- Companion shell homework: [learning-shell: HTTP tools (`curl` & `wget`)](https://github.com/amitsk/learning-shell/blob/main/scripts/tools_http.md)
 
 ```bash
 curl -I https://example.com
@@ -742,48 +562,35 @@ You do not need to become a jq golfer. You need `.foo.bar`, `.[0]`, and the humi
 
 ## 5.13 Staying updated without superstition
 
-Software updates are how you receive security fixes. They are not optional extra credit.
-
-### Weekly (or whenever Update Manager nags)
-
-```bash
-sudo apt update
-sudo apt upgrade
-sudo reboot   # if a new kernel or libc landed and the updater says so
-```
-
-Mint's **Update Manager** is allowed to be your daily driver. It understands kernels, mintupdate levels, and "this reboot is not a suggestion."
+Software updates are how you receive security fixes, not optional extra credit. Run `sudo apt update && sudo apt upgrade` (from [section 5.3](#53-apt-the-grocery-store)) weekly — or let Mint's **Update Manager** handle it and reboot whenever a kernel or `libc` update asks.
 
 ### Automatic security updates
 
-Update Manager is how Mint delivers security updates. It nags by default; if you want it to install without asking, turn on automatic updates in its Preferences. On Ubuntu, Xubuntu, or Budgie — or if you prefer the Debian machinery — `unattended-upgrades` does the same job:
+Mint's Update Manager can install updates automatically from its Preferences. On Ubuntu, Xubuntu, or Budgie (or if you prefer the CLI), enable [`unattended-upgrades`](https://help.ubuntu.com/community/AutomaticSecurityUpdates):
 
 ```bash
 sudo apt install unattended-upgrades
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
 
-Answer **Yes** to automatic updates. It installs security patches without a dialog. It does not upgrade you to a new distro release, and it does not reboot unless you configure it to. That is the deal.
+Answer **Yes**. It installs security patches quietly without upgrading you to a new distro release or surprise-rebooting.
 
 ### Know what you are running
 
 ```bash
-hostnamectl
-lsb_release -a
-uname -r
-apt list --installed | less
+hostnamectl && uname -r
 ```
 
 ### Do not
 
 - Disable updates because a blog said they "break everything"
-- `chmod -R 777` the project directory to "fix permissions"
-- Add every PPA you see on a gist
-- Upgrade to a non-LTS Ubuntu mid-semester unless you like grading your own OS
+- `chmod -R 777` a project directory to "fix permissions"
+- Collect random PPAs like Pokémon cards
+- Upgrade to a non-LTS Ubuntu mid-semester unless you enjoy debugging your own OS before finals
 
-Mint tracks Ubuntu LTS. Stay on the supported release; in-place upgrades have an official path in Mint's release notes when a new LTS lands.
+Mint tracks Ubuntu LTS; follow Mint's release notes when a new major release lands.
 
-**Fedora:** `sudo dnf upgrade --refresh`. Fedora's cadence is faster; that is the point of Fedora.
+**Fedora:** `sudo dnf upgrade --refresh`. Fedora's faster cadence is the whole point of Fedora.
 
 ## 5.14 Backups: Timeshift is not a backup
 
@@ -854,7 +661,7 @@ If those succeed, you have a workstation. Everything else is customization.
 
 | Topic | Xubuntu / Ubuntu Budgie / Ubuntu | Fedora | Omarchy |
 | --- | --- | --- | --- |
-| Install OS | [Xubuntu](https://xubuntu.org/) · [Ubuntu Budgie](https://ubuntubudgie.org/) · [Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/) | [Omarchy getting started](https://omarchy.org/manual/getting-started/) |
+| Install OS | [Xubuntu](https://xubuntu.org/) · [Ubuntu Budgie](https://ubuntubudgie.org/) · [Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) | [Fedora getting started](https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/) · [Spins](https://fedoraproject.org/spins/) | [Omarchy getting started](https://omarchy.org/manual/getting-started/) |
 | Packages | [APT](https://ubuntu.com/server/docs/how-to/software/package-management/) | [DNF](https://docs.fedoraproject.org/en-US/quick-docs/dnf/) | [pacman](https://wiki.archlinux.org/title/Pacman) via [Omarchy packages](https://omarchy.org/manual/other-packages/) |
 | SSH | [OpenSSH](https://ubuntu.com/server/docs/how-to/security/openssh-server/) | `openssh-server` + `sshd.service` | [Omarchy security](https://omarchy.org/manual/security/) (*Setup → Security → SSHD*) |
 | Firewall | [UFW](https://help.ubuntu.com/community/UFW) | [firewalld](https://docs.fedoraproject.org/en-US/quick-docs/firewalld/) | UFW, already on; [security](https://omarchy.org/manual/security/) |

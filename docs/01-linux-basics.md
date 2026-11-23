@@ -8,15 +8,15 @@ If you only remember one thing from this page: **pick a distro, install it, then
 
 ## Linux is already around you
 
-Linux's reach extends far beyond desktop PCs. Its adaptable kernel and open-source development model let organizations build everything from small devices to large computing clusters.
+Even if you have never installed Linux, you have already used it today. It quietly runs most of the computing world that does not come with a glowing logo on the lid:
 
-- **Cloud and servers:** Linux runs web applications, databases, build systems, and container hosts across AWS, Azure, and Google Cloud. Providers even maintain their own distributions, covered in [chapter 3](03-linux-distributions.md). [Amazon Linux](https://aws.amazon.com/linux/amazon-linux-2023/) is one example.
-- **Phones and tablets:** Android uses the Linux kernel beneath its own runtime, libraries, and app framework. That makes an Android phone part of the Linux ecosystem, but it does not give it the same desktop or package manager as Ubuntu. See the [Android architecture overview](https://source.android.com/docs/core/architecture).
-- **Embedded devices:** Routers, appliances, industrial equipment, and in-vehicle systems can use tailored Linux systems. The [Yocto Project](https://www.yoctoproject.org/) helps manufacturers build systems for their hardware; these often have neither a desktop nor a keyboard.
-- **Scientific computing:** Linux dominates large supercomputers used for simulations and research. [TOP500's Linux statistics](https://www.top500.org/statistics/details/osfam/1/) track its presence in that ranking.
-- **Personal computing and learning:** Linux also powers developer workstations and small computers such as the Raspberry Pi, whose official [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) is Debian-based.
+- **Cloud and servers:** Web apps, databases, build farms, and container hosts across AWS, Azure, and Google Cloud. Cloud providers even maintain their own distros (like [Amazon Linux](https://aws.amazon.com/linux/amazon-linux-2023/)), covered in [chapter 3](03-linux-distributions.md).
+- **Phones and tablets:** Android runs the Linux kernel underneath its own runtime and app stack — same engine, completely different dashboard and no `apt` in sight. See the [Android architecture overview](https://source.android.com/docs/core/architecture).
+- **Embedded devices:** Routers, smart TVs, factory gear, and car dashboards often run custom Linux builds (frequently assembled with the [Yocto Project](https://www.yoctoproject.org/)). No desktop, no keyboard, just tiny tireless boxes.
+- **Supercomputers:** Linux owns the [TOP500](https://www.top500.org/statistics/details/osfam/1/) list. Nobody builds an exascale cluster and asks it to reboot for updates at 2 p.m.
+- **Personal computing and learning:** Developer workstations and tiny boards like the Raspberry Pi ([Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) is Debian-based).
 
-There is no single useful “Linux market share” across all these categories. Desktop usage alone misses phones, cloud infrastructure, and devices. Learning processes, permissions, networking, and the shell gives you concepts you can reuse across many of them.
+So "Linux desktop market share" misses the plot — it ignores your phone, your router, and the cloud. Learning processes, permissions, networking, and the shell gives you skills that transfer to almost all of them.
 
 ## Why CS students end up on Linux
 
